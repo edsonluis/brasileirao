@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Brasileirão 2014</string>
+    <string name="dialog_carregando">Carregando&#8230;</string>
+    <string name="label_clube">Clube</string>
+    <string name="label_jogos">J</string>
+    <string name="label_vitorias">V</string>
+    <string name="label_empates">E</string>
+    <string name="label_pontos">P</string>
+    <string name="label_derrotas">D</string>
+    <string name="label_gols_pro">GP</string>
+    <string name="label_gols_contra">GC</string>
+    <string name="label_saldo_gols">SG</string>
+    <string name="tab_classificacao">Classificação</string>
+    <string name="tab_calendario">Calendário</string>
+
+</resources>
