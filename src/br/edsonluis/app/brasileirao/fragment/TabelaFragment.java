@@ -1,5 +1,6 @@
 package br.edsonluis.app.brasileirao.fragment;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import android.app.ProgressDialog;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
 import br.edsonluis.app.base.image.cache.ImageLoader;
@@ -38,10 +40,10 @@ public class TabelaFragment extends Fragment {
 		super.onViewCreated(view, savedInstanceState);
 		context = (HomeActivity) getActivity();
 		context.restoreActionBar();
-		
+
 		layout = (TableLayout) context.findViewById(R.id.table_layout);
 		dialog = ProgressDialog.show(context, null,
-				getString(R.string.dialog_carregando), true);
+				getString(R.string.dialog_carregando), true, false);
 		dialog.hide();
 		imageLoader = new ImageLoader(context);
 		loadData();
@@ -68,12 +70,49 @@ public class TabelaFragment extends Fragment {
 				dialog.hide();
 				if (listData.size() > 0) {
 					for (Tabela item : listData) {
-						layout.addView(getRowView(item), item.Posicao);
+						layout.addView(getRowView(item), item.Posicao - 1);
 					}
+					adjustTableRow();
 				}
 			};
 
 		}.execute();
+	}
+
+	private void adjustTableRow() {
+
+		TableLayout header = (TableLayout) context
+				.findViewById(R.id.table_header_layout);
+
+		List<Integer> colWidths = new LinkedList<Integer>();
+
+		for (int rownum = 0; rownum < layout.getChildCount(); rownum++) {
+			TableRow rowBody = (TableRow) layout.getChildAt(rownum);
+			for (int cellnum = 0; cellnum < rowBody.getChildCount(); cellnum++) {
+				View cell = rowBody.getChildAt(cellnum);
+				Integer cellWidth = cell.getLayoutParams().width;
+				if (colWidths.size() <= cellnum) {
+					colWidths.add(cellWidth);
+				} else {
+					Integer current = colWidths.get(cellnum);
+					if (cellWidth > current) {
+						colWidths.remove(cellnum);
+						colWidths.add(cellnum, cellWidth);
+					}
+				}
+			}
+		}
+
+		int dips = Utils.convertPixelsToDp(120);
+		((ImageView) context.findViewById(R.id.im_escudo))
+				.setLayoutParams(new LayoutParams(dips, dips));
+
+		TableRow rowHeader = (TableRow) header.getChildAt(0);
+		for (int cellnum = 0; cellnum < rowHeader.getChildCount(); cellnum++) {
+			View cell = rowHeader.getChildAt(cellnum);
+			cell.getLayoutParams().width = colWidths.get(cellnum);
+		}
+
 	}
 
 	public View getRowView(Tabela item) {

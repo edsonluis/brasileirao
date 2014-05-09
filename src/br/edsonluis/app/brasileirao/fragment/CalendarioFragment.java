@@ -108,7 +108,7 @@ public class CalendarioFragment extends Fragment implements TabListener {
 
 			protected void onPostExecute(Void result) {
 				dialog.hide();
-				actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+				actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 				if (tempRodada == 0)
 					actionBar.setSelectedNavigationItem(dadosRodada.rodada - 1);
 
