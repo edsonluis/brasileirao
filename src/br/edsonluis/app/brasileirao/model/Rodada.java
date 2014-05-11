@@ -8,7 +8,10 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import android.content.Context;
 import android.util.Log;
+import br.edsonluis.app.brasileirao.BrasileiraoApplication;
+import br.edsonluis.app.brasileirao.R;
 import br.edsonluis.app.brasileirao.util.Constantes;
 import br.edsonluis.app.brasileirao.util.Utils;
 
@@ -17,6 +20,8 @@ import com.google.gson.Gson;
 public class Rodada implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	private static final Context context = BrasileiraoApplication.getContext();
 
 	public int rodada;
 	public String grupo;
@@ -30,10 +35,14 @@ public class Rodada implements Serializable {
 	}
 
 	public static RodadaWrapper obterRodadaAtual() throws Exception {
-		return obterRodada(0);
+		return obterRodada(0, false);
+	}
+	
+	public static RodadaWrapper obterRodada(final int rodada) throws Exception {
+		return obterRodada(rodada, false);
 	}
 
-	public static RodadaWrapper obterRodada(final int rodada) throws Exception {
+	public static RodadaWrapper obterRodada(final int rodada, boolean forceUpdate) throws Exception {
 
 		RodadaWrapper rodadaWrapper = null;
 		String json = null;
@@ -41,36 +50,41 @@ public class Rodada implements Serializable {
 				: Constantes.URL_RODADA + rodada;
 
 		if (Utils.isOnline()) {
-			if (Constantes.DEBUG)
-				Log.d(Rodada.class.getSimpleName(), "URL: " + url);
-
-			DefaultHttpClient client = new DefaultHttpClient();
-			HttpGet getRequest = new HttpGet(url);
-
-			try {
-				HttpResponse getResponse = client.execute(getRequest);
-				int statusCode = getResponse.getStatusLine().getStatusCode();
-				if (statusCode != HttpStatus.SC_OK) {
-					throw new Exception("Código de erro: " + statusCode);
+			if (forceUpdate || Utils.checkUpdateDate()) {
+				
+				if (Constantes.DEBUG)
+					Log.d(Rodada.class.getSimpleName(), "URL: " + url);
+	
+				DefaultHttpClient client = new DefaultHttpClient();
+				HttpGet getRequest = new HttpGet(url);
+	
+				try {
+					HttpResponse getResponse = client.execute(getRequest);
+					int statusCode = getResponse.getStatusLine().getStatusCode();
+					if (statusCode != HttpStatus.SC_OK) {
+						throw new Exception("Erro: " + statusCode);
+					}
+	
+					HttpEntity entity = getResponse.getEntity();
+					if (entity != null) {
+						json = Utils.convertStreamToString(entity.getContent());
+						rodadaWrapper = getRodadaWrapper(json);
+						Utils.saveRodadaJson(json,
+								rodadaWrapper.dadosRodada.rodada, true);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					client.getConnectionManager().shutdown();
 				}
-
-				HttpEntity entity = getResponse.getEntity();
-				if (entity != null) {
-					json = Utils.convertStreamToString(entity.getContent());
-					rodadaWrapper = getRodadaWrapper(json);
-					Utils.saveRodadaJson(json,
-							rodadaWrapper.dadosRodada.rodada, true);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				client.getConnectionManager().shutdown();
 			}
-		} else {
+		}
+		
+		if (json == null) {
 			json = Utils.getRodadaJson(rodada);
 			rodadaWrapper = getRodadaWrapper(json);
 			if (json == null)
-				throw new Exception("Seu dispositivo está sem internet.");
+				throw new Exception(context.getString(R.string.mensagem_sem_internet));
 		}
 
 		return rodadaWrapper;

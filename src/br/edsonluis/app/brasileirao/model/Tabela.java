@@ -10,7 +10,10 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import android.content.Context;
 import android.util.Log;
+import br.edsonluis.app.brasileirao.BrasileiraoApplication;
+import br.edsonluis.app.brasileirao.R;
 import br.edsonluis.app.brasileirao.util.Constantes;
 import br.edsonluis.app.brasileirao.util.Utils;
 
@@ -19,6 +22,8 @@ import com.google.gson.Gson;
 public class Tabela implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	private static final Context context = BrasileiraoApplication.getContext();
 
 	public Equipe Equipe;
 	public String P;
@@ -43,44 +48,52 @@ public class Tabela implements Serializable {
 	private static TabelaWrapper getTabelaWrapper(String json) {
 		return new Gson().fromJson(json, TabelaWrapper.class);
 	}
-
+	
 	public static List<Tabela> obterTabela() throws Exception {
+		return obterTabela(false);
+	}
+
+	public static List<Tabela> obterTabela(boolean forceUpdate) throws Exception {
 
 		TabelaWrapper tabelaWrapper = null;
-		String json = Utils.getTabelaJson();
+		String json = null;
+		
+		if (Utils.isOnline()) {
+			if (forceUpdate || Utils.checkUpdateDate()) {
+				
+				if (Constantes.DEBUG)
+					Log.d(Tabela.class.getSimpleName(), "URL: " + Constantes.URL_TABELA);
+				
+				DefaultHttpClient client = new DefaultHttpClient();
+				HttpGet getRequest = new HttpGet(Constantes.URL_TABELA);
 
-		if (json != null) {
+				try {
+					HttpResponse getResponse = client.execute(getRequest);
+					int statusCode = getResponse.getStatusLine().getStatusCode();
+					if (statusCode != HttpStatus.SC_OK) {
+						throw new Exception("Erro: " + statusCode);
+					}
+
+					HttpEntity entity = getResponse.getEntity();
+					if (entity != null) {
+						json = Utils.convertStreamToString(entity.getContent());
+						tabelaWrapper = getTabelaWrapper(json);
+						Utils.saveTabelaJson(json);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					client.getConnectionManager().shutdown();
+				}
+			}
+		}
 			
+		if (json == null) {
+			json = Utils.getTabelaJson();
 			tabelaWrapper = getTabelaWrapper(json);
 			
-		} else if (Utils.isOnline()) {
-			
-			if (Constantes.DEBUG)
-				Log.d(Tabela.class.getSimpleName(), "URL: " + Constantes.URL_TABELA);
-			
-			DefaultHttpClient client = new DefaultHttpClient();
-			HttpGet getRequest = new HttpGet(Constantes.URL_TABELA);
-
-			try {
-				HttpResponse getResponse = client.execute(getRequest);
-				int statusCode = getResponse.getStatusLine().getStatusCode();
-				if (statusCode != HttpStatus.SC_OK) {
-					throw new Exception("Código de erro: " + statusCode);
-				}
-
-				HttpEntity entity = getResponse.getEntity();
-				if (entity != null) {
-					json = Utils.convertStreamToString(entity.getContent());
-					tabelaWrapper = getTabelaWrapper(json);
-					Utils.saveTabelaJson(json);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				client.getConnectionManager().shutdown();
-			}
-		} else {
-			throw new Exception("Seu dispositivo está sem internet.");
+			if (json == null)
+				throw new Exception(context.getString(R.string.mensagem_sem_internet));
 		}
 
 		return (tabelaWrapper != null) ? tabelaWrapper.tabela

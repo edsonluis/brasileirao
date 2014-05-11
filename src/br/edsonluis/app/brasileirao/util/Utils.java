@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Calendar;
-import java.util.Date;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -14,7 +13,6 @@ import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import br.edsonluis.app.brasileirao.BrasileiraoApplication;
 
 public class Utils {
@@ -33,13 +31,11 @@ public class Utils {
 	public static void saveTabelaJson(String json) {
 		Editor editor = getSharedPreferences().edit();
 		editor.putString(Constantes.JSON_TABELA, json);
-		editor.putLong(Constantes.EXPIRES_TABELA, getExpirationDate());
 		editor.commit();
 	}
 
 	public static String getTabelaJson() {
-		return (checkExpiration()) ? null : getSharedPreferences().getString(
-				Constantes.JSON_TABELA, null);
+		return getSharedPreferences().getString(Constantes.JSON_TABELA, null);
 	}
 
 	public static void saveRodadaJson(String json, int rodada, boolean atual) {
@@ -61,31 +57,31 @@ public class Utils {
 
 	}
 
-	private static Long getExpirationDate() {
-		Calendar c = Calendar.getInstance();
-		c.setTime(new Date());
-		c.add(Calendar.DATE, 1);
-		return c.getTimeInMillis();
-	}
+//	private static Long getExpirationDate() {
+//		Calendar c = Calendar.getInstance();
+//		c.setTime(new Date());
+//		c.add(Calendar.DATE, 1);
+//		return c.getTimeInMillis();
+//	}
+//
+//	private static boolean checkExpiration() {
+//		Long expires_data = getSharedPreferences().getLong(
+//				Constantes.EXPIRES_TABELA, 0);
+//		if (expires_data != 0) {
+//			Calendar expiration = Calendar.getInstance();
+//			expiration.setTimeInMillis(expires_data);
+//
+//			Calendar today = Calendar.getInstance();
+//
+//			if (Constantes.DEBUG)
+//				Log.d(Utils.class.getSimpleName(), "Expires: " + expires_data);
+//
+//			return (checkUpdateDate() && today.compareTo(expiration) > 0);
+//		}
+//		return true;
+//	}
 
-	private static boolean checkExpiration() {
-		Long expires_data = getSharedPreferences().getLong(
-				Constantes.EXPIRES_TABELA, 0);
-		if (expires_data != 0) {
-			Calendar expiration = Calendar.getInstance();
-			expiration.setTimeInMillis(expires_data);
-
-			Calendar today = Calendar.getInstance();
-
-			if (Constantes.DEBUG)
-				Log.d(Utils.class.getSimpleName(), "Expires: " + expires_data);
-
-			return (checkUpdateDate() && today.compareTo(expiration) > 0);
-		}
-		return true;
-	}
-
-	private static boolean checkUpdateDate() {
+	public static boolean checkUpdateDate() {
 		Calendar c = Calendar.getInstance();
 		int day = c.get(Calendar.DAY_OF_WEEK);
 		if (day == Calendar.SUNDAY || day == Calendar.WEDNESDAY
