@@ -1,117 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/table_header_layout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:showDividers="middle"
-    android:stretchColumns="*" >
+    android:orientation="vertical" >
 
-    <TableRow
+    <TableLayout
+        android:id="@+id/table_header_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/darker_gray" >
+        android:showDividers="middle"
+        android:stretchColumns="*" >
 
-        <TextView
-            android:id="@+id/tv_posicao"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical|right"
-            android:padding="4dp"
-            android:textColor="@android:color/darker_gray"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:id="@+id/im_escudo"
-            android:layout_width="wrap_content"
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:contentDescription="@null"
-            android:gravity="center"
-            android:paddingBottom="1dp"
-            android:paddingTop="1dp" />
+            android:background="@android:color/darker_gray" >
 
-        <TextView
-            android:id="@+id/tv_nome"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical|left"
-            android:padding="5dp"
-            android:text="@string/label_clube"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tv_posicao"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|right"
+                android:padding="1dp"
+                android:text="@null"
+                android:textColor="@android:color/darker_gray"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tv_pontos"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="@string/label_pontos"
-            android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/im_escudo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                android:gravity="center"
+                android:paddingBottom="1dp"
+                android:paddingTop="1dp"
+                android:src="@null" />
 
-        <TextView
-            android:id="@+id/tv_jogos"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="@string/label_jogos"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tv_nome"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|left"
+                android:padding="5dp"
+                android:text="@string/label_clube"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tv_vitorias"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="@string/label_vitorias"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tv_pontos"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/label_pontos"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tv_empates"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="@string/label_empates"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tv_jogos"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/label_jogos"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tv_derrotas"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="@string/label_derrotas"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tv_vitorias"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/label_vitorias"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tv_gols_pro"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="@string/label_gols_pro"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tv_empates"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/label_empates"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tv_gols_contra"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="@string/label_gols_contra"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tv_derrotas"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/label_derrotas"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tv_saldo_gols"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="@string/label_saldo_gols"
-            android:textStyle="bold" />
-    </TableRow>
+            <TextView
+                android:id="@+id/tv_gols_pro"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/label_gols_pro"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_gols_contra"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/label_gols_contra"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_saldo_gols"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/label_saldo_gols"
+                android:textStyle="bold" />
+        </TableRow>
+    </TableLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -123,7 +129,102 @@
             android:layout_height="wrap_content"
             android:showDividers="middle"
             android:stretchColumns="*" >
+            
+            <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center_vertical|right"
+                android:padding="1dp"
+                android:text="@null"
+                android:textColor="@android:color/darker_gray"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:contentDescription="@null"
+                android:gravity="center"
+                android:paddingBottom="1dp"
+                android:paddingTop="1dp"
+                android:src="@null" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center_vertical|left"
+                android:padding="5dp"
+                android:text="@string/label_clube"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/label_pontos"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/label_jogos"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/label_vitorias"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/label_empates"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/label_derrotas"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/label_gols_pro"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/label_gols_contra"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/label_saldo_gols"
+                android:textStyle="bold" />
+        </TableRow>
         </TableLayout>
     </ScrollView>
 
-</TableLayout>
+</LinearLayout>

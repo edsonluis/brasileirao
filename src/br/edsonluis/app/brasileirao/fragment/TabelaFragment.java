@@ -103,9 +103,9 @@ public class TabelaFragment extends Fragment {
 			}
 		}
 
-		int dips = Utils.convertPixelsToDp(120);
+		int dips = Utils.convertPixelsToDp(130);
 		((ImageView) context.findViewById(R.id.im_escudo))
-				.setLayoutParams(new LayoutParams(dips, dips));
+				.setLayoutParams(new LayoutParams(0, dips));
 
 		TableRow rowHeader = (TableRow) header.getChildAt(0);
 		for (int cellnum = 0; cellnum < rowHeader.getChildCount(); cellnum++) {
@@ -142,7 +142,7 @@ public class TabelaFragment extends Fragment {
 		gols_pro.setText(item.GP);
 		gols_contra.setText(item.GC);
 		saldo_gols.setText(item.SG);
-		int dips = Utils.convertPixelsToDp(120);
+		int dips = Utils.convertPixelsToDp(130);
 		escudo.setLayoutParams(new LayoutParams(dips, dips));
 		imageLoader.displayImage(item.getEscudo(), escudo);
 

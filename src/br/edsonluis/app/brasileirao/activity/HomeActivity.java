@@ -8,8 +8,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import br.edsonluis.app.brasileirao.R;
+import br.edsonluis.app.brasileirao.fragment.JogosFragment;
 import br.edsonluis.app.brasileirao.fragment.NavigationDrawerFragment;
-import br.edsonluis.app.brasileirao.fragment.PageSlidingTabFragment;
 import br.edsonluis.app.brasileirao.fragment.TabelaFragment;
 
 public class HomeActivity extends ActionBarActivity implements
@@ -41,8 +41,8 @@ public class HomeActivity extends ActionBarActivity implements
 			break;
 
 		case 1:
-			transaction.replace(R.id.container,
-					PageSlidingTabFragment.newInstance());
+			transaction.replace(R.id.container, new JogosFragment());
+			transaction.addToBackStack(null);
 			break;
 		}
 		transaction.commit();
@@ -69,10 +69,12 @@ public class HomeActivity extends ActionBarActivity implements
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		getMenuInflater().inflate(R.menu.menu_main, menu);
 		if (!mNavigationDrawerFragment.isDrawerOpen()) {
 			return true;
 		}
-		return super.onCreateOptionsMenu(menu);
+		return true;
 	}
 
 	@Override
