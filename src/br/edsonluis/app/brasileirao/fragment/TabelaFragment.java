@@ -15,10 +15,10 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
-import br.edsonluis.app.base.image.cache.ImageLoader;
 import br.edsonluis.app.brasileirao.R;
 import br.edsonluis.app.brasileirao.activity.HomeActivity;
 import br.edsonluis.app.brasileirao.model.Tabela;
+import br.edsonluis.app.brasileirao.util.Constantes;
 import br.edsonluis.app.brasileirao.util.Utils;
 
 public class TabelaFragment extends Fragment {
@@ -27,7 +27,8 @@ public class TabelaFragment extends Fragment {
 	private List<Tabela> listData;
 	private ProgressDialog dialog;
 	private HomeActivity context;
-	private ImageLoader imageLoader;
+//	private ImageLoader imageLoader;
+	private boolean forceUpdate;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,8 +46,22 @@ public class TabelaFragment extends Fragment {
 		dialog = ProgressDialog.show(context, null,
 				getString(R.string.dialog_carregando), true, false);
 		dialog.hide();
-		imageLoader = new ImageLoader(context);
+//		imageLoader = new ImageLoader(context);
+		checkFirstRun();
 		loadData();
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		if (dialog != null)
+			dialog.dismiss();
+	}
+	
+	private void checkFirstRun() {
+		forceUpdate = Utils.getSharedPreferences().getBoolean(Constantes.FIRST_RUN, true);
+		if (forceUpdate)
+			Utils.updateFirstRun();
 	}
 
 	private void loadData() {
@@ -59,7 +74,7 @@ public class TabelaFragment extends Fragment {
 			@Override
 			protected Void doInBackground(Void... params) {
 				try {
-					listData = Tabela.obterTabela();
+					listData = Tabela.obterTabela(forceUpdate);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -68,7 +83,7 @@ public class TabelaFragment extends Fragment {
 
 			protected void onPostExecute(Void result) {
 				dialog.hide();
-				if (listData.size() > 0) {
+				if (listData != null && listData.size() > 0) {
 					for (Tabela item : listData) {
 						layout.addView(getRowView(item), item.Posicao - 1);
 					}
@@ -103,9 +118,9 @@ public class TabelaFragment extends Fragment {
 			}
 		}
 
-		int dips = Utils.convertPixelsToDp(130);
+		int dips = Utils.convertPixelsToDp(120);
 		((ImageView) context.findViewById(R.id.im_escudo))
-				.setLayoutParams(new LayoutParams(0, dips));
+				.setLayoutParams(new LayoutParams(dips, dips));
 
 		TableRow rowHeader = (TableRow) header.getChildAt(0);
 		for (int cellnum = 0; cellnum < rowHeader.getChildCount(); cellnum++) {
@@ -142,9 +157,10 @@ public class TabelaFragment extends Fragment {
 		gols_pro.setText(item.GP);
 		gols_contra.setText(item.GC);
 		saldo_gols.setText(item.SG);
-		int dips = Utils.convertPixelsToDp(130);
+		int dips = Utils.convertPixelsToDp(120);
 		escudo.setLayoutParams(new LayoutParams(dips, dips));
-		imageLoader.displayImage(item.getEscudo(), escudo);
+		escudo.setImageDrawable(getResources().getDrawable(item.getEscudo()));
+//		imageLoader.displayImage(item.getEscudo(), escudo);
 
 		if (item.Posicao > 0 && item.Posicao <= 4)
 			posicao.setTextColor(getResources().getColor(

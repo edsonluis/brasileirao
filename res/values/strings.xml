@@ -12,9 +12,10 @@
     <string name="label_gols_pro">GP</string>
     <string name="label_gols_contra">GC</string>
     <string name="label_saldo_gols">SG</string>
+    <string name="label_versus">X</string>
+    <string name="label_separador">-</string>
     <string name="tab_classificacao">Classificação</string>
     <string name="tab_calendario">Calendário</string>
-    
     <string name="mensagem_sem_internet">Seu dispositivo está sem internet.</string>
 
 </resources>

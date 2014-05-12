@@ -15,12 +15,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import br.edsonluis.app.brasileirao.R;
 import br.edsonluis.app.brasileirao.activity.HomeActivity;
+import br.edsonluis.app.brasileirao.adapter.JogosAdapter;
 import br.edsonluis.app.brasileirao.model.Jogos;
 import br.edsonluis.app.brasileirao.model.Rodada;
 import br.edsonluis.app.brasileirao.model.RodadaWrapper;
 import br.edsonluis.app.brasileirao.util.Constantes;
+import br.edsonluis.app.brasileirao.util.Utils;
 
-public class JogosFragment extends Fragment implements ActionBar.OnNavigationListener {
+public class JogosFragment extends Fragment implements
+		ActionBar.OnNavigationListener {
 
 	private ActionBar actionBar;
 	private ProgressDialog dialog;
@@ -28,8 +31,9 @@ public class JogosFragment extends Fragment implements ActionBar.OnNavigationLis
 	private Rodada dadosRodada;
 	private List<Jogos> listJogos;
 	private ListView listView;
-	private ArrayAdapter<String> adapter;
-	private int rodadaAtual = 0;
+	private JogosAdapter listAdapter;
+	private ArrayAdapter<String> menuAdapter;
+	private int rodadaAtual;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,14 +60,30 @@ public class JogosFragment extends Fragment implements ActionBar.OnNavigationLis
 			TITLES.add(i, "Rodada " + (i + 1));
 		}
 
-		adapter = new ArrayAdapter<String>(actionBar.getThemedContext(),
+		menuAdapter = new ArrayAdapter<String>(actionBar.getThemedContext(),
 				android.R.layout.simple_spinner_item, android.R.id.text1,
 				TITLES);
 
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		actionBar.setListNavigationCallbacks(adapter, this);
+		menuAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		actionBar.setListNavigationCallbacks(menuAdapter, this);
 
-		loadData();
+		listView = (ListView) context.findViewById(R.id.listview_jogos);
+
+		rodadaAtual = Utils.getSharedPreferences().getInt(
+				Constantes.RODADA_ATUAL, 0);
+
+		if (rodadaAtual > 0)
+			actionBar.setSelectedNavigationItem(rodadaAtual - 1);
+		else
+			loadData();
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		if (dialog != null)
+			dialog.dismiss();
 	}
 
 	@Override
@@ -86,9 +106,7 @@ public class JogosFragment extends Fragment implements ActionBar.OnNavigationLis
 			@Override
 			protected Void doInBackground(Void... params) {
 				try {
-					rodadaWrapper = (rodadaAtual == 0) ? Rodada
-							.obterRodadaAtual() : Rodada
-							.obterRodada(rodadaAtual);
+					rodadaWrapper = Rodada.obterRodada(rodadaAtual);
 					dadosRodada = rodadaWrapper.dadosRodada;
 					listJogos = rodadaWrapper.jogos;
 				} catch (Exception e) {
@@ -99,13 +117,11 @@ public class JogosFragment extends Fragment implements ActionBar.OnNavigationLis
 
 			protected void onPostExecute(Void result) {
 				dialog.hide();
-
-				if (rodadaAtual == 0)
-					actionBar.setSelectedNavigationItem(dadosRodada.rodada - 1);
-
 				rodadaAtual = dadosRodada.rodada;
 				if (listJogos != null && listJogos.size() > 0) {
-
+					listAdapter = new JogosAdapter(context, listJogos);
+					listAdapter.notifyDataSetChanged();
+					listView.setAdapter(listAdapter);
 				}
 			};
 

@@ -16,7 +16,7 @@ public class Constantes {
 	public static final String JSON_TABELA = "tabela_json";
 	public static final String JSON_RODADA = "json_rodada_";
 	public static final String RODADA_ATUAL = "rodada_atual";
-	public static final String EXPIRES_TABELA = "expires_tabela";
+	public static final String FIRST_RUN = "first_run";
 	
 	public static final String URL_TABELA = URL_DEFAULT + "getTabelaGrupo" + URL_PARAM_SERIE_A;
 	public static final String URL_RODADA_ATUAL = URL_DEFAULT + "getRodadaAtual" + URL_PARAM_SERIE_A;

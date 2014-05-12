@@ -19,13 +19,24 @@ public class Utils {
 
 	private static final Context context = BrasileiraoApplication.getContext();
 
-	private static SharedPreferences getSharedPreferences() {
+	public static SharedPreferences getSharedPreferences() {
 		return context.getSharedPreferences(Constantes.BRASILEIRAO_PREFERENCE,
 				Context.MODE_PRIVATE);
 	}
 
 	public static String abreviarNome(String nome) {
 		return nome.replace("Paranaense", "PR").replace("Mineiro", "MG");
+	}
+
+	public static int getDrawableResourceByName(String name) {
+		return context.getResources().getIdentifier("drawable/" + name,
+				"drawable", context.getPackageName());
+	}
+
+	public static void updateFirstRun() {
+		Editor editor = getSharedPreferences().edit();
+		editor.putBoolean(Constantes.FIRST_RUN, false);
+		editor.commit();
 	}
 
 	public static void saveTabelaJson(String json) {
@@ -56,30 +67,6 @@ public class Utils {
 		}
 
 	}
-
-//	private static Long getExpirationDate() {
-//		Calendar c = Calendar.getInstance();
-//		c.setTime(new Date());
-//		c.add(Calendar.DATE, 1);
-//		return c.getTimeInMillis();
-//	}
-//
-//	private static boolean checkExpiration() {
-//		Long expires_data = getSharedPreferences().getLong(
-//				Constantes.EXPIRES_TABELA, 0);
-//		if (expires_data != 0) {
-//			Calendar expiration = Calendar.getInstance();
-//			expiration.setTimeInMillis(expires_data);
-//
-//			Calendar today = Calendar.getInstance();
-//
-//			if (Constantes.DEBUG)
-//				Log.d(Utils.class.getSimpleName(), "Expires: " + expires_data);
-//
-//			return (checkUpdateDate() && today.compareTo(expiration) > 0);
-//		}
-//		return true;
-//	}
 
 	public static boolean checkUpdateDate() {
 		Calendar c = Calendar.getInstance();

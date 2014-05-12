@@ -22,7 +22,7 @@ import com.google.gson.Gson;
 public class Tabela implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+	private static final String TAG = Tabela.class.getSimpleName();
 	private static final Context context = BrasileiraoApplication.getContext();
 
 	public Equipe Equipe;
@@ -41,35 +41,40 @@ public class Tabela implements Serializable {
 				: "Clube";
 	}
 
-	public String getEscudo() {
-		return (Equipe != null) ? Equipe.escudo._150x150 : "";
+	public int getEscudo() {
+		return (Equipe != null) ? Utils
+				.getDrawableResourceByName(Equipe.escudo._150x150.replace(
+						"http://www.futebits.com.br/content/escudos/150x150/",
+						"").replace(".png", "")) : 0;
 	}
 
 	private static TabelaWrapper getTabelaWrapper(String json) {
 		return new Gson().fromJson(json, TabelaWrapper.class);
 	}
-	
+
 	public static List<Tabela> obterTabela() throws Exception {
 		return obterTabela(false);
 	}
 
-	public static List<Tabela> obterTabela(boolean forceUpdate) throws Exception {
+	public static List<Tabela> obterTabela(boolean forceUpdate)
+			throws Exception {
 
 		TabelaWrapper tabelaWrapper = null;
 		String json = null;
-		
+
 		if (Utils.isOnline()) {
 			if (forceUpdate || Utils.checkUpdateDate()) {
-				
+
 				if (Constantes.DEBUG)
-					Log.d(Tabela.class.getSimpleName(), "URL: " + Constantes.URL_TABELA);
-				
+					Log.d(TAG, "URL: " + Constantes.URL_TABELA);
+
 				DefaultHttpClient client = new DefaultHttpClient();
 				HttpGet getRequest = new HttpGet(Constantes.URL_TABELA);
 
 				try {
 					HttpResponse getResponse = client.execute(getRequest);
-					int statusCode = getResponse.getStatusLine().getStatusCode();
+					int statusCode = getResponse.getStatusLine()
+							.getStatusCode();
 					if (statusCode != HttpStatus.SC_OK) {
 						throw new Exception("Erro: " + statusCode);
 					}
@@ -85,15 +90,19 @@ public class Tabela implements Serializable {
 				} finally {
 					client.getConnectionManager().shutdown();
 				}
+
+				if (forceUpdate)
+					Rodada.obterRodadaAtual(forceUpdate);
 			}
 		}
-			
+
 		if (json == null) {
 			json = Utils.getTabelaJson();
 			tabelaWrapper = getTabelaWrapper(json);
-			
+
 			if (json == null)
-				throw new Exception(context.getString(R.string.mensagem_sem_internet));
+				throw new Exception(
+						context.getString(R.string.mensagem_sem_internet));
 		}
 
 		return (tabelaWrapper != null) ? tabelaWrapper.tabela

@@ -20,7 +20,7 @@ import com.google.gson.Gson;
 public class Rodada implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+	private static final String TAG = Rodada.class.getSimpleName();
 	private static final Context context = BrasileiraoApplication.getContext();
 
 	public int rodada;
@@ -33,9 +33,9 @@ public class Rodada implements Serializable {
 	private static RodadaWrapper getRodadaWrapper(String json) {
 		return new Gson().fromJson(json, RodadaWrapper.class);
 	}
-
-	public static RodadaWrapper obterRodadaAtual() throws Exception {
-		return obterRodada(0, false);
+	
+	public static RodadaWrapper obterRodadaAtual(boolean forceUpdate) throws Exception {
+		return obterRodada(0, forceUpdate);
 	}
 	
 	public static RodadaWrapper obterRodada(final int rodada) throws Exception {
@@ -53,7 +53,7 @@ public class Rodada implements Serializable {
 			if (forceUpdate || Utils.checkUpdateDate()) {
 				
 				if (Constantes.DEBUG)
-					Log.d(Rodada.class.getSimpleName(), "URL: " + url);
+					Log.d(TAG, "URL: " + url);
 	
 				DefaultHttpClient client = new DefaultHttpClient();
 				HttpGet getRequest = new HttpGet(url);
@@ -70,7 +70,7 @@ public class Rodada implements Serializable {
 						json = Utils.convertStreamToString(entity.getContent());
 						rodadaWrapper = getRodadaWrapper(json);
 						Utils.saveRodadaJson(json,
-								rodadaWrapper.dadosRodada.rodada, true);
+								rodadaWrapper.dadosRodada.rodada, (rodada == 0));
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
