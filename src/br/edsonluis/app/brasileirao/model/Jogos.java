@@ -1,10 +1,14 @@
 package br.edsonluis.app.brasileirao.model;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import br.edsonluis.app.brasileirao.util.Utils;
 
-public class Jogos implements Serializable {
+public class Jogos implements Serializable, Comparable<Jogos> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -39,5 +43,20 @@ public class Jogos implements Serializable {
 		return Utils.getDrawableResourceByName(escudo_equipe_visitante._150x150
 				.replace("http://www.futebits.com.br/content/escudos/150x150/",
 						"").replace(".png", ""));
+	}
+
+	@Override
+	public int compareTo(Jogos outroJogo) {
+		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss", new Locale("pt", "BR"));
+		Date d1 = null;
+		Date d2 = null;
+		try {
+			d1 = df.parse(this.data + " " + this.hora);
+			d2 = df.parse(outroJogo.data + " " + outroJogo.hora);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		return d1.compareTo(d2);
 	}
 }

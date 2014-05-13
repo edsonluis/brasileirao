@@ -11,7 +11,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
-import br.edsonluis.app.base.image.cache.ImageLoader;
 import br.edsonluis.app.brasileirao.R;
 import br.edsonluis.app.brasileirao.model.Jogos;
 import br.edsonluis.app.brasileirao.util.Utils;
@@ -20,7 +19,6 @@ public class JogosAdapter extends BaseAdapter {
 
 	private Context context;
 	private List<Jogos> lista = Collections.emptyList();
-//	private ImageLoader imageLoader;
 	
 	public JogosAdapter(Context context, List<Jogos> lista) {
 		this.context = context;
@@ -58,22 +56,23 @@ public class JogosAdapter extends BaseAdapter {
 		TextView local = (TextView) convertView.findViewById(R.id.local_jogo);
 		
 		Jogos item = getItem(position);
-//		imageLoader = new ImageLoader(context);
 		
 		int dips = Utils.convertPixelsToDp(220);
 		escudo_m.setLayoutParams(new LayoutParams(dips, dips));
 		escudo_m.setImageResource(item.getEscudoMandante());
-//		imageLoader.displayImage(item.getEscudoMandante(), escudo_m);
 		
 		escudo_v.setLayoutParams(new LayoutParams(dips, dips));
 		escudo_v.setImageResource(item.getEscudoVisitante());
-//		imageLoader.displayImage(item.getEscudoVisitante(), escudo_v);
 
 		if (item.gols_mandante != null)
 			gols_m.setText(item.gols_mandante);
+		else
+			gols_m.setText(" ");
 		
 		if (item.gols_visitante != null)
 			gols_v.setText(item.gols_visitante);
+		else
+			gols_v.setText(" ");
 			
 		data.setText(item.data);
 		local.setText(item.estadio);

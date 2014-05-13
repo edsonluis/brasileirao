@@ -1,6 +1,7 @@
 package br.edsonluis.app.brasileirao.fragment;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import android.app.ProgressDialog;
@@ -119,6 +120,7 @@ public class JogosFragment extends Fragment implements
 				dialog.hide();
 				rodadaAtual = dadosRodada.rodada;
 				if (listJogos != null && listJogos.size() > 0) {
+					Collections.sort(listJogos);
 					listAdapter = new JogosAdapter(context, listJogos);
 					listAdapter.notifyDataSetChanged();
 					listView.setAdapter(listAdapter);

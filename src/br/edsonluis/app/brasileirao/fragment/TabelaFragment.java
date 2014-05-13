@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -27,8 +28,6 @@ public class TabelaFragment extends Fragment {
 	private List<Tabela> listData;
 	private ProgressDialog dialog;
 	private HomeActivity context;
-//	private ImageLoader imageLoader;
-	private boolean forceUpdate;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,25 +45,27 @@ public class TabelaFragment extends Fragment {
 		dialog = ProgressDialog.show(context, null,
 				getString(R.string.dialog_carregando), true, false);
 		dialog.hide();
-//		imageLoader = new ImageLoader(context);
-		checkFirstRun();
-		loadData();
+		loadData(checkFirstRun());
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		if (dialog != null)
 			dialog.dismiss();
 	}
-	
-	private void checkFirstRun() {
-		forceUpdate = Utils.getSharedPreferences().getBoolean(Constantes.FIRST_RUN, true);
+
+	private boolean checkFirstRun() {
+		boolean forceUpdate = Utils.getSharedPreferences().getBoolean(
+				Constantes.FIRST_RUN, true);
+
 		if (forceUpdate)
 			Utils.updateFirstRun();
+
+		return forceUpdate;
 	}
 
-	private void loadData() {
+	private void loadData(final boolean forceUpdate) {
 		new AsyncTask<Void, Void, Void>() {
 
 			protected void onPreExecute() {
@@ -160,7 +161,6 @@ public class TabelaFragment extends Fragment {
 		int dips = Utils.convertPixelsToDp(120);
 		escudo.setLayoutParams(new LayoutParams(dips, dips));
 		escudo.setImageDrawable(getResources().getDrawable(item.getEscudo()));
-//		imageLoader.displayImage(item.getEscudo(), escudo);
 
 		if (item.Posicao > 0 && item.Posicao <= 4)
 			posicao.setTextColor(getResources().getColor(
@@ -177,5 +177,16 @@ public class TabelaFragment extends Fragment {
 					android.R.color.white));
 
 		return view;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		super.onOptionsItemSelected(item);
+		switch (item.getItemId()) {
+		case R.id.action_refresh:
+			loadData(true);
+			break;
+		}
+		return true;
 	}
 }

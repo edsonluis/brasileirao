@@ -16,6 +16,12 @@
     <string name="label_separador">-</string>
     <string name="tab_classificacao">Classificação</string>
     <string name="tab_calendario">Calendário</string>
+    <string name="menu_refresh">Atualizar</string>
     <string name="mensagem_sem_internet">Seu dispositivo está sem internet.</string>
+    
+    <string-array name="nav_drawer_items">
+        <item>@string/tab_classificacao</item>
+        <item>@string/tab_calendario</item>
+    </string-array>
 
 </resources>
