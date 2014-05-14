@@ -8,10 +8,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import br.edsonluis.app.brasileirao.R;
-import br.edsonluis.app.brasileirao.fragment.JogosFragment;
 import br.edsonluis.app.brasileirao.fragment.NavigationDrawerFragment;
 import br.edsonluis.app.brasileirao.fragment.SobreFragment;
 import br.edsonluis.app.brasileirao.fragment.TabelaFragment;
+import br.edsonluis.app.brasileirao.fragment.TabsFragment;
 
 public class HomeActivity extends ActionBarActivity implements
 		NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -42,7 +42,7 @@ public class HomeActivity extends ActionBarActivity implements
 			break;
 
 		case 1:
-			transaction.replace(R.id.container, new JogosFragment());
+			transaction.replace(R.id.container, new TabsFragment(), TabsFragment.TAG);
 			transaction.addToBackStack(null);
 			break;
 		
