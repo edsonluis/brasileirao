@@ -3,7 +3,6 @@
 
     <string name="app_name">Brasileirão 2014</string>
     <string name="dialog_carregando">Carregando&#8230;</string>
-    <string name="label_clube">Clube</string>
     <string name="label_jogos">J</string>
     <string name="label_vitorias">V</string>
     <string name="label_empates">E</string>
@@ -14,14 +13,13 @@
     <string name="label_saldo_gols">SG</string>
     <string name="label_versus">X</string>
     <string name="label_separador">-</string>
-    <string name="tab_classificacao">Classificação</string>
-    <string name="tab_calendario">Calendário</string>
     <string name="menu_refresh">Atualizar</string>
     <string name="mensagem_sem_internet">Seu dispositivo está sem internet.</string>
     
     <string-array name="nav_drawer_items">
-        <item>@string/tab_classificacao</item>
-        <item>@string/tab_calendario</item>
+        <item>Classificação</item>
+        <item>Jogos</item>
+        <item>Sobre</item>
     </string-array>
 
 </resources>

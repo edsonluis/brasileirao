@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +30,12 @@ public class TabelaFragment extends Fragment {
 	private List<Tabela> listData;
 	private ProgressDialog dialog;
 	private HomeActivity context;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -119,14 +127,10 @@ public class TabelaFragment extends Fragment {
 			}
 		}
 
-		int dips = Utils.convertPixelsToDp(120);
-		((ImageView) context.findViewById(R.id.im_escudo))
-				.setLayoutParams(new LayoutParams(dips, dips));
-
 		TableRow rowHeader = (TableRow) header.getChildAt(0);
-		for (int cellnum = 0; cellnum < rowHeader.getChildCount(); cellnum++) {
+		for (int cellnum = 1; cellnum < rowHeader.getChildCount(); cellnum++) {
 			View cell = rowHeader.getChildAt(cellnum);
-			cell.getLayoutParams().width = colWidths.get(cellnum);
+			cell.getLayoutParams().width = colWidths.get(cellnum + 1);
 		}
 
 	}
@@ -178,15 +182,23 @@ public class TabelaFragment extends Fragment {
 
 		return view;
 	}
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);
+		menu.findItem(R.id.action_refresh).setVisible(true);
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		super.onOptionsItemSelected(item);
+
 		switch (item.getItemId()) {
 		case R.id.action_refresh:
 			loadData(true);
 			break;
 		}
+		
 		return true;
 	}
 }

@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import br.edsonluis.app.brasileirao.R;
 import br.edsonluis.app.brasileirao.fragment.JogosFragment;
 import br.edsonluis.app.brasileirao.fragment.NavigationDrawerFragment;
+import br.edsonluis.app.brasileirao.fragment.SobreFragment;
 import br.edsonluis.app.brasileirao.fragment.TabelaFragment;
 
 public class HomeActivity extends ActionBarActivity implements
@@ -44,20 +45,14 @@ public class HomeActivity extends ActionBarActivity implements
 			transaction.replace(R.id.container, new JogosFragment());
 			transaction.addToBackStack(null);
 			break;
+		
+		case 2:
+			transaction.replace(R.id.container, new SobreFragment());
+			transaction.addToBackStack(null);
+			break;
 		}
 		transaction.commit();
 
-	}
-
-	public void onSectionAttached(int number) {
-		switch (number) {
-		case 1:
-			mTitle = getString(R.string.tab_classificacao);
-			break;
-		case 2:
-			mTitle = getString(R.string.tab_calendario);
-			break;
-		}
 	}
 
 	public void restoreActionBar() {

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     File created by the Android Action Bar Style Generator
+
+     Copyright (C) 2011 The Android Open Source Project
+     Copyright (C) 2012 readyState Software Ltd
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="Theme.Brasileirao" parent="@style/Theme.AppCompat.Light">
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_brasileirao</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu.Brasileirao</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Brasileirao</item>
+        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Brasileirao</item>
+        <item name="android:actionDropDownStyle">@style/DropDownNav.Brasileirao</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.Brasileirao</item>
+        <item name="android:actionModeBackground">@drawable/cab_background_top_brasileirao</item>
+        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_brasileirao</item>
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Brasileirao</item>
+    </style>
+
+    <style name="ActionBar.Solid.Brasileirao" parent="@style/Widget.AppCompat.Light.ActionBar">
+        <item name="android:background">@drawable/ab_solid_brasileirao</item>
+        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_brasileirao</item>
+        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_brasileirao</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Brasileirao</item>
+        <item name="android:titleTextStyle">@style/ActionBarTextStyle.Brasileirao</item>
+    </style>
+
+    <style name="ActionBar.Transparent.Brasileirao" parent="@style/Widget.AppCompat.Light.ActionBar">
+        <item name="android:background">@drawable/ab_transparent_brasileirao</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Brasileirao</item>
+    </style>
+
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="Theme.Brasileirao.Widget" parent="@style/Theme.AppCompat">
+        <item name="android:popupMenuStyle">@style/PopupMenu.Brasileirao</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Brasileirao</item>
+    </style>
+
+</resources>

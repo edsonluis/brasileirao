@@ -7,5 +7,6 @@
     <dimen name="navigation_drawer_width">240dp</dimen>
     
     <dimen name="placar_textsize">38sp</dimen>
+    <dimen name="tablelayout_header_adjust">149dp</dimen>
 
 </resources>
