@@ -1,6 +1,5 @@
 package br.edsonluis.app.brasileirao.fragment;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import android.app.ProgressDialog;
@@ -15,11 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
 import br.edsonluis.app.brasileirao.R;
-import br.edsonluis.app.brasileirao.activity.HomeActivity;
+import br.edsonluis.app.brasileirao.activity.MainActivity;
 import br.edsonluis.app.brasileirao.model.Tabela;
 import br.edsonluis.app.brasileirao.util.Constantes;
 import br.edsonluis.app.brasileirao.util.Utils;
@@ -29,7 +27,7 @@ public class TabelaFragment extends Fragment {
 	private TableLayout layout;
 	private List<Tabela> listData;
 	private ProgressDialog dialog;
-	private HomeActivity context;
+	private MainActivity context;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -46,7 +44,7 @@ public class TabelaFragment extends Fragment {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		context = (HomeActivity) getActivity();
+		context = (MainActivity) getActivity();
 		context.restoreActionBar();
 
 		layout = (TableLayout) context.findViewById(R.id.table_layout);
@@ -74,65 +72,36 @@ public class TabelaFragment extends Fragment {
 	}
 
 	private void loadData(final boolean forceUpdate) {
-		new AsyncTask<Void, Void, Void>() {
 
-			protected void onPreExecute() {
-				dialog.show();
-			};
+		if (forceUpdate || layout.getChildCount() == 0) {
+			new AsyncTask<Void, Void, Void>() {
 
-			@Override
-			protected Void doInBackground(Void... params) {
-				try {
-					listData = Tabela.obterTabela(forceUpdate);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				return null;
-			}
+				protected void onPreExecute() {
+					dialog.show();
+				};
 
-			protected void onPostExecute(Void result) {
-				dialog.hide();
-				if (listData != null && listData.size() > 0) {
-					for (Tabela item : listData) {
-						layout.addView(getRowView(item), item.Posicao - 1);
+				@Override
+				protected Void doInBackground(Void... params) {
+					try {
+						listData = Tabela.obterTabela(forceUpdate);
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
-					adjustTableRow();
+					return null;
 				}
-			};
 
-		}.execute();
-	}
-
-	private void adjustTableRow() {
-
-		TableLayout header = (TableLayout) context
-				.findViewById(R.id.table_header_layout);
-
-		List<Integer> colWidths = new LinkedList<Integer>();
-
-		for (int rownum = 0; rownum < layout.getChildCount(); rownum++) {
-			TableRow rowBody = (TableRow) layout.getChildAt(rownum);
-			for (int cellnum = 0; cellnum < rowBody.getChildCount(); cellnum++) {
-				View cell = rowBody.getChildAt(cellnum);
-				Integer cellWidth = cell.getLayoutParams().width;
-				if (colWidths.size() <= cellnum) {
-					colWidths.add(cellWidth);
-				} else {
-					Integer current = colWidths.get(cellnum);
-					if (cellWidth > current) {
-						colWidths.remove(cellnum);
-						colWidths.add(cellnum, cellWidth);
+				protected void onPostExecute(Void result) {
+					dialog.hide();
+					if (listData != null && listData.size() > 0) {
+						layout.removeAllViews();
+						for (Tabela item : listData) {
+							layout.addView(getRowView(item), item.Posicao - 1);
+						}
 					}
-				}
-			}
-		}
+				};
 
-		TableRow rowHeader = (TableRow) header.getChildAt(0);
-		for (int cellnum = 1; cellnum < rowHeader.getChildCount(); cellnum++) {
-			View cell = rowHeader.getChildAt(cellnum);
-			cell.getLayoutParams().width = colWidths.get(cellnum + 1);
+			}.execute();
 		}
-
 	}
 
 	public View getRowView(Tabela item) {
@@ -182,7 +151,7 @@ public class TabelaFragment extends Fragment {
 
 		return view;
 	}
-	
+
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
@@ -198,7 +167,7 @@ public class TabelaFragment extends Fragment {
 			loadData(true);
 			break;
 		}
-		
+
 		return true;
 	}
 }

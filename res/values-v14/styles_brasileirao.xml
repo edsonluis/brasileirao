@@ -18,7 +18,7 @@
      limitations under the License.
 -->
 
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources>
 
     <style name="Theme.Brasileirao" parent="@style/Theme.AppCompat.Light">
         <item name="android:actionBarItemBackground">@drawable/selectable_background_brasileirao</item>
@@ -32,12 +32,11 @@
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Brasileirao</item>
     </style>
 
-    <style name="ActionBar.Solid.Brasileirao" parent="@style/Widget.AppCompat.Light.ActionBar">
+    <style name="ActionBar.Solid.Brasileirao" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
         <item name="android:background">@drawable/ab_solid_brasileirao</item>
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_brasileirao</item>
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_brasileirao</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Brasileirao</item>
-        <item name="android:titleTextStyle">@style/ActionBarTextStyle.Brasileirao</item>
     </style>
 
     <style name="ActionBar.Transparent.Brasileirao" parent="@style/Widget.AppCompat.Light.ActionBar">

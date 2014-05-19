@@ -78,7 +78,7 @@ public class NavigationDrawerFragment extends Fragment {
 					}
 				});
 		mDrawerListView.setAdapter(new ArrayAdapter<String>(getActionBar()
-				.getThemedContext(), android.R.layout.select_dialog_item,
+				.getThemedContext(), android.R.layout.simple_list_item_1,
 				android.R.id.text1, getResources().getStringArray(R.array.nav_drawer_items)));
 		mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 		return mDrawerListView;
@@ -102,7 +102,7 @@ public class NavigationDrawerFragment extends Fragment {
 
 		mDrawerToggle = new ActionBarDrawerToggle(getActivity(), /* host Activity */
 		mDrawerLayout, /* DrawerLayout object */
-		R.drawable.ic_navigation_drawer, /* nav drawer image to replace 'Up' caret */
+		R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
 		R.string.app_name, /* "open drawer" description for accessibility */
 		R.string.app_name /* "close drawer" description for accessibility */
 		) {

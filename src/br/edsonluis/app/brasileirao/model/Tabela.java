@@ -10,10 +10,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import android.content.Context;
 import android.util.Log;
-import br.edsonluis.app.brasileirao.BrasileiraoApplication;
-import br.edsonluis.app.brasileirao.R;
 import br.edsonluis.app.brasileirao.util.Constantes;
 import br.edsonluis.app.brasileirao.util.Utils;
 
@@ -23,7 +20,7 @@ public class Tabela implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = Tabela.class.getSimpleName();
-	private static final Context context = BrasileiraoApplication.getContext();
+//	private static final Context context = BrasileiraoApplication.getContext();
 
 	public Equipe Equipe;
 	public String P;
@@ -63,7 +60,7 @@ public class Tabela implements Serializable {
 		String json = null;
 
 		if (Utils.isOnline()) {
-			if (forceUpdate || Utils.checkUpdateDate()) {
+			if (forceUpdate) {
 
 				if (Constantes.DEBUG)
 					Log.d(TAG, "URL: " + Constantes.URL_TABELA);
@@ -90,19 +87,18 @@ public class Tabela implements Serializable {
 				} finally {
 					client.getConnectionManager().shutdown();
 				}
-
-				if (forceUpdate)
-					Rodada.obterRodadaAtual(forceUpdate);
+			} else {
+				json = Utils.getTabelaJson();
+				tabelaWrapper = getTabelaWrapper(json);
 			}
+		} else {
+			json = Utils.getTabelaJson();
+			tabelaWrapper = getTabelaWrapper(json);
 		}
 
 		if (json == null) {
-			json = Utils.getTabelaJson();
-			tabelaWrapper = getTabelaWrapper(json);
-
-			if (json == null)
-				throw new Exception(
-						context.getString(R.string.mensagem_sem_internet));
+			tabelaWrapper = new TabelaWrapper();
+			tabelaWrapper.tabela = obterTabela(true);
 		}
 
 		return (tabelaWrapper != null) ? tabelaWrapper.tabela

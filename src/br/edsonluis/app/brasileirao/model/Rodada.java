@@ -8,10 +8,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import android.content.Context;
 import android.util.Log;
-import br.edsonluis.app.brasileirao.BrasileiraoApplication;
-import br.edsonluis.app.brasileirao.R;
 import br.edsonluis.app.brasileirao.util.Constantes;
 import br.edsonluis.app.brasileirao.util.Utils;
 
@@ -21,7 +18,7 @@ public class Rodada implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = Rodada.class.getSimpleName();
-	private static final Context context = BrasileiraoApplication.getContext();
+//	private static final Context context = BrasileiraoApplication.getContext();
 
 	public int rodada;
 	public String grupo;
@@ -33,16 +30,18 @@ public class Rodada implements Serializable {
 	private static RodadaWrapper getRodadaWrapper(String json) {
 		return new Gson().fromJson(json, RodadaWrapper.class);
 	}
-	
-	public static RodadaWrapper obterRodadaAtual(boolean forceUpdate) throws Exception {
+
+	public static RodadaWrapper obterRodadaAtual(boolean forceUpdate)
+			throws Exception {
 		return obterRodada(0, forceUpdate);
 	}
-	
+
 	public static RodadaWrapper obterRodada(final int rodada) throws Exception {
 		return obterRodada(rodada, false);
 	}
 
-	public static RodadaWrapper obterRodada(final int rodada, boolean forceUpdate) throws Exception {
+	public static RodadaWrapper obterRodada(final int rodada,
+			boolean forceUpdate) throws Exception {
 
 		RodadaWrapper rodadaWrapper = null;
 		String json = null;
@@ -50,21 +49,22 @@ public class Rodada implements Serializable {
 				: Constantes.URL_RODADA + rodada;
 
 		if (Utils.isOnline()) {
-			if (forceUpdate || Utils.checkUpdateDate()) {
-				
+			if (forceUpdate) {
+
 				if (Constantes.DEBUG)
 					Log.d(TAG, "URL: " + url);
-	
+
 				DefaultHttpClient client = new DefaultHttpClient();
 				HttpGet getRequest = new HttpGet(url);
-	
+
 				try {
 					HttpResponse getResponse = client.execute(getRequest);
-					int statusCode = getResponse.getStatusLine().getStatusCode();
+					int statusCode = getResponse.getStatusLine()
+							.getStatusCode();
 					if (statusCode != HttpStatus.SC_OK) {
 						throw new Exception("Erro: " + statusCode);
 					}
-	
+
 					HttpEntity entity = getResponse.getEntity();
 					if (entity != null) {
 						json = Utils.convertStreamToString(entity.getContent());
@@ -77,14 +77,17 @@ public class Rodada implements Serializable {
 				} finally {
 					client.getConnectionManager().shutdown();
 				}
+			} else {
+				json = Utils.getRodadaJson(rodada);
+				rodadaWrapper = getRodadaWrapper(json);
 			}
-		}
-		
-		if (json == null) {
+		} else {
 			json = Utils.getRodadaJson(rodada);
 			rodadaWrapper = getRodadaWrapper(json);
-			if (json == null)
-				throw new Exception(context.getString(R.string.mensagem_sem_internet));
+		}
+
+		if (json == null && !forceUpdate) {
+			rodadaWrapper = obterRodada(rodada, true);
 		}
 
 		return rodadaWrapper;

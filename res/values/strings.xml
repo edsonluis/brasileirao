@@ -17,7 +17,7 @@
     <string name="mensagem_sem_internet">Seu dispositivo está sem internet.</string>
     
     <string-array name="nav_drawer_items">
-        <item>Classificação</item>
+        <item>Tabela</item>
         <item>Jogos</item>
         <item>Sobre</item>
     </string-array>

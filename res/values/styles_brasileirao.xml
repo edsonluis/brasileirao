@@ -32,12 +32,11 @@
         <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Brasileirao</item>
     </style>
 
-    <style name="ActionBar.Solid.Brasileirao" parent="@style/Widget.AppCompat.Light.ActionBar">
+    <style name="ActionBar.Solid.Brasileirao" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
         <item name="background">@drawable/ab_solid_brasileirao</item>
         <item name="backgroundStacked">@drawable/ab_stacked_solid_brasileirao</item>
         <item name="backgroundSplit">@drawable/ab_bottom_solid_brasileirao</item>
         <item name="progressBarStyle">@style/ProgressBar.Brasileirao</item>
-        <item name="titleTextStyle">@style/ActionBarTextStyle.Brasileirao</item>
     </style>
 
     <style name="ActionBar.Transparent.Brasileirao" parent="@style/Widget.AppCompat.Light.ActionBar">
@@ -51,10 +50,6 @@
 
     <style name="DropDownListView.Brasileirao" parent="@style/Widget.AppCompat.Light.ListView.DropDown">
         <item name="android:listSelector">@drawable/selectable_background_brasileirao</item>
-    </style>
-    
-    <style name="ActionBarTextStyle.Brasileirao" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="ActionBarTabStyle.Brasileirao" parent="@style/Widget.AppCompat.Light.ActionBar.TabView">

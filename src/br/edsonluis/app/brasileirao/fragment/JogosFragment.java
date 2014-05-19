@@ -8,13 +8,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import br.edsonluis.app.brasileirao.R;
-import br.edsonluis.app.brasileirao.activity.HomeActivity;
+import br.edsonluis.app.brasileirao.activity.MainActivity;
 import br.edsonluis.app.brasileirao.adapter.JogosAdapter;
 import br.edsonluis.app.brasileirao.model.Jogos;
 import br.edsonluis.app.brasileirao.model.Rodada;
@@ -25,19 +24,19 @@ public class JogosFragment extends Fragment {
 	public static final String ARG_SECTION_NUMBER = "section_number";
 
 	private ProgressDialog dialog;
-	private HomeActivity context;
+	private MainActivity context;
 	private Rodada dadosRodada;
 	private List<Jogos> listJogos;
 	private ListView listView;
 	private JogosAdapter listAdapter;
 	private int rodadaAtual;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
+	public static Fragment newInstance(Bundle args) {
+		Fragment fragment = new JogosFragment();
+		fragment.setArguments(args);
+		return fragment;
 	}
-	
+
 	public static Fragment newInstance(Integer tabId) {
 		Fragment fragment = new JogosFragment();
 		Bundle args = new Bundle();
@@ -56,17 +55,34 @@ public class JogosFragment extends Fragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
-		context = (HomeActivity) getActivity();
+		context = (MainActivity) getActivity();
 
 		String dialogMessage = getString(R.string.dialog_carregando);
 		dialog = ProgressDialog.show(context, null, dialogMessage, true);
 		dialog.hide();
 
 		listView = (ListView) context.findViewById(R.id.listview_jogos);
-
 		rodadaAtual = getArguments().getInt(ARG_SECTION_NUMBER);
+		loadData(false);
+	}
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		super.onOptionsItemSelected(item);
 
-		loadData();
+		switch (item.getItemId()) {
+		case R.id.action_refresh:
+			loadData(true);
+			break;
+		}
+
+		return true;
 	}
 
 	@Override
@@ -76,7 +92,7 @@ public class JogosFragment extends Fragment {
 			dialog.dismiss();
 	}
 
-	private void loadData() {
+	private void loadData(final boolean forceUpdate) {
 
 		new AsyncTask<Void, Void, Void>() {
 
@@ -89,7 +105,7 @@ public class JogosFragment extends Fragment {
 			@Override
 			protected Void doInBackground(Void... params) {
 				try {
-					rodadaWrapper = Rodada.obterRodada(rodadaAtual);
+					rodadaWrapper = Rodada.obterRodada(rodadaAtual, forceUpdate);
 					dadosRodada = rodadaWrapper.dadosRodada;
 					listJogos = rodadaWrapper.jogos;
 				} catch (Exception e) {
@@ -110,11 +126,5 @@ public class JogosFragment extends Fragment {
 			};
 
 		}.execute();
-	}
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
-		menu.findItem(R.id.action_refresh).setVisible(false);
 	}
 }

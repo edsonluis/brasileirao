@@ -1,5 +1,6 @@
 package br.edsonluis.app.brasileirao.activity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -12,8 +13,9 @@ import br.edsonluis.app.brasileirao.fragment.NavigationDrawerFragment;
 import br.edsonluis.app.brasileirao.fragment.SobreFragment;
 import br.edsonluis.app.brasileirao.fragment.TabelaFragment;
 import br.edsonluis.app.brasileirao.fragment.TabsFragment;
+import br.edsonluis.app.brasileirao.model.Rodada;
 
-public class HomeActivity extends ActionBarActivity implements
+public class MainActivity extends ActionBarActivity implements
 		NavigationDrawerFragment.NavigationDrawerCallbacks {
 
 	private NavigationDrawerFragment mNavigationDrawerFragment;
@@ -30,6 +32,19 @@ public class HomeActivity extends ActionBarActivity implements
 
 		mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
 				(DrawerLayout) findViewById(R.id.drawer_layout));
+
+		new AsyncTask<Void, Void, Void>() {
+
+			@Override
+			protected Void doInBackground(Void... params) {
+				try {
+					Rodada.obterRodadaAtual(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return null;
+			}
+		}.execute();
 	}
 
 	@Override
@@ -42,10 +57,11 @@ public class HomeActivity extends ActionBarActivity implements
 			break;
 
 		case 1:
-			transaction.replace(R.id.container, new TabsFragment(), TabsFragment.TAG);
+			transaction.replace(R.id.container, new TabsFragment(),
+					TabsFragment.TAG);
 			transaction.addToBackStack(null);
 			break;
-		
+
 		case 2:
 			transaction.replace(R.id.container, new SobreFragment());
 			transaction.addToBackStack(null);
