@@ -14,16 +14,27 @@ import br.edsonluis.app.brasileirao.fragment.SobreFragment;
 import br.edsonluis.app.brasileirao.fragment.TabelaFragment;
 import br.edsonluis.app.brasileirao.model.Rodada;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 public class MainActivity extends ActionBarActivity implements
 		NavigationDrawerFragment.NavigationDrawerCallbacks {
 
 	private NavigationDrawerFragment mNavigationDrawerFragment;
 	private CharSequence mTitle;
+	private AdView adView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
+
+		adView = (AdView) this.findViewById(R.id.adView);
+		AdRequest adRequest = new AdRequest.Builder()
+				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+				.addTestDevice("040E5414F1FE9A0FEBAF5A6E496488B1").build();
+		adView.loadAd(adRequest);
 
 		mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.navigation_drawer);
@@ -47,6 +58,36 @@ public class MainActivity extends ActionBarActivity implements
 	}
 
 	@Override
+	public void onPause() {
+	  adView.pause();
+	  super.onPause();
+	}
+
+	@Override
+	public void onResume() {
+	  super.onResume();
+	  adView.resume();
+	}
+
+	@Override
+	public void onDestroy() {
+	  adView.destroy();
+	  super.onDestroy();
+	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		EasyTracker.getInstance(this).activityStart(this);
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance(this).activityStop(this);
+	}
+
+	@Override
 	public void onNavigationDrawerItemSelected(int position) {
 		FragmentTransaction transaction = getSupportFragmentManager()
 				.beginTransaction();
@@ -57,12 +98,12 @@ public class MainActivity extends ActionBarActivity implements
 
 		case 1:
 			transaction.replace(R.id.container, new JogosFragment());
-			transaction.addToBackStack(null);
+//			transaction.addToBackStack(null);
 			break;
 
 		case 2:
 			transaction.replace(R.id.container, new SobreFragment());
-			transaction.addToBackStack(null);
+//			transaction.addToBackStack(null);
 			break;
 		}
 		transaction.commit();

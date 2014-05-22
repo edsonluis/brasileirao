@@ -92,6 +92,8 @@ public class TabelaFragment extends Fragment implements
 					swipeLayout.setRefreshing(false);
 					if (listData != null && listData.size() > 0) {
 						for (Tabela item : listData) {
+							if (tableLayout.getChildAt(item.Posicao) != null)
+								tableLayout.removeViewAt(item.Posicao);
 							tableLayout.addView(getRowView(item),
 									item.Posicao);
 						}
