@@ -2,14 +2,11 @@ package br.edsonluis.app.brasileirao.fragment;
 
 import java.util.List;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -22,18 +19,13 @@ import br.edsonluis.app.brasileirao.model.Tabela;
 import br.edsonluis.app.brasileirao.util.Constantes;
 import br.edsonluis.app.brasileirao.util.Utils;
 
-public class TabelaFragment extends Fragment {
+public class TabelaFragment extends Fragment implements
+		SwipeRefreshLayout.OnRefreshListener {
 
-	private TableLayout layout;
+	private TableLayout tableLayout;
 	private List<Tabela> listData;
-	private ProgressDialog dialog;
 	private MainActivity context;
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
-	}
+	private SwipeRefreshLayout swipeLayout;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,24 +36,30 @@ public class TabelaFragment extends Fragment {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+
 		context = (MainActivity) getActivity();
 		context.restoreActionBar();
 
-		layout = (TableLayout) context.findViewById(R.id.table_layout);
-		dialog = ProgressDialog.show(context, null,
-				getString(R.string.dialog_carregando), true, false);
-		dialog.hide();
+		tableLayout = (TableLayout) context.findViewById(R.id.table_layout);
+		int dips = Utils.convertPixelsToDp(120);
+		tableLayout.getChildAt(0).findViewById(R.id.im_escudo).setLayoutParams(new LayoutParams(dips, dips));
+		setSwipeLayout();
+
 		loadData(checkFirstRun());
 	}
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		if (dialog != null)
-			dialog.dismiss();
+	private void setSwipeLayout() {
+
+		swipeLayout = (SwipeRefreshLayout) context
+				.findViewById(R.id.swipe_container);
+		swipeLayout.setOnRefreshListener(this);
+		swipeLayout.setColorScheme(R.color.holo_green_dark,
+				R.color.holo_red_dark, R.color.holo_blue_dark,
+				R.color.holo_orange_dark);
 	}
 
 	private boolean checkFirstRun() {
+
 		boolean forceUpdate = Utils.getSharedPreferences().getBoolean(
 				Constantes.FIRST_RUN, true);
 
@@ -73,11 +71,11 @@ public class TabelaFragment extends Fragment {
 
 	private void loadData(final boolean forceUpdate) {
 
-		if (forceUpdate || layout.getChildCount() == 0) {
+		if (forceUpdate || tableLayout.getChildCount() == 1) {
 			new AsyncTask<Void, Void, Void>() {
 
 				protected void onPreExecute() {
-					dialog.show();
+					swipeLayout.setRefreshing(true);
 				};
 
 				@Override
@@ -91,11 +89,11 @@ public class TabelaFragment extends Fragment {
 				}
 
 				protected void onPostExecute(Void result) {
-					dialog.hide();
+					swipeLayout.setRefreshing(false);
 					if (listData != null && listData.size() > 0) {
-						layout.removeAllViews();
 						for (Tabela item : listData) {
-							layout.addView(getRowView(item), item.Posicao - 1);
+							tableLayout.addView(getRowView(item),
+									item.Posicao);
 						}
 					}
 				};
@@ -153,21 +151,8 @@ public class TabelaFragment extends Fragment {
 	}
 
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
-		menu.findItem(R.id.action_refresh).setVisible(true);
+	public void onRefresh() {
+		loadData(true);
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		super.onOptionsItemSelected(item);
-
-		switch (item.getItemId()) {
-		case R.id.action_refresh:
-			loadData(true);
-			break;
-		}
-
-		return true;
-	}
 }

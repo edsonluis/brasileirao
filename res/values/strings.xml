@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Brasileirão 2014</string>
+    <string name="activity_title">Brasileirão</string>
     <string name="dialog_carregando">Carregando&#8230;</string>
     <string name="label_jogos">J</string>
     <string name="label_vitorias">V</string>

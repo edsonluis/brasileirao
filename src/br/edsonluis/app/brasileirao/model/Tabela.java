@@ -96,10 +96,10 @@ public class Tabela implements Serializable {
 			tabelaWrapper = getTabelaWrapper(json);
 		}
 
-		if (json == null) {
-			tabelaWrapper = new TabelaWrapper();
-			tabelaWrapper.tabela = obterTabela(true);
-		}
+//		if (json == null) {
+//			tabelaWrapper = new TabelaWrapper();
+//			tabelaWrapper.tabela = obterTabela(true);
+//		}
 
 		return (tabelaWrapper != null) ? tabelaWrapper.tabela
 				: new ArrayList<Tabela>();

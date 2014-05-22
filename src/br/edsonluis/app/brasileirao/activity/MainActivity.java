@@ -7,12 +7,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
-import android.view.MenuItem;
 import br.edsonluis.app.brasileirao.R;
+import br.edsonluis.app.brasileirao.fragment.JogosFragment;
 import br.edsonluis.app.brasileirao.fragment.NavigationDrawerFragment;
 import br.edsonluis.app.brasileirao.fragment.SobreFragment;
 import br.edsonluis.app.brasileirao.fragment.TabelaFragment;
-import br.edsonluis.app.brasileirao.fragment.TabsFragment;
 import br.edsonluis.app.brasileirao.model.Rodada;
 
 public class MainActivity extends ActionBarActivity implements
@@ -57,8 +56,7 @@ public class MainActivity extends ActionBarActivity implements
 			break;
 
 		case 1:
-			transaction.replace(R.id.container, new TabsFragment(),
-					TabsFragment.TAG);
+			transaction.replace(R.id.container, new JogosFragment());
 			transaction.addToBackStack(null);
 			break;
 
@@ -81,16 +79,10 @@ public class MainActivity extends ActionBarActivity implements
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		getMenuInflater().inflate(R.menu.menu_main, menu);
 		if (!mNavigationDrawerFragment.isDrawerOpen()) {
 			return true;
 		}
 		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		return super.onOptionsItemSelected(item);
 	}
 
 }
