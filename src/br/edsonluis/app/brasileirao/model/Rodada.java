@@ -18,7 +18,6 @@ public class Rodada implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = Rodada.class.getSimpleName();
-//	private static final Context context = BrasileiraoApplication.getContext();
 
 	public int rodada;
 	public String grupo;
@@ -48,46 +47,35 @@ public class Rodada implements Serializable {
 		String url = (rodada == 0) ? Constantes.URL_RODADA_ATUAL
 				: Constantes.URL_RODADA + rodada;
 
-		if (Utils.isOnline()) {
-			if (forceUpdate) {
+		if (Utils.isOnline() && forceUpdate) {
+			if (Constantes.DEBUG)
+				Log.d(TAG, "URL: " + url);
 
-				if (Constantes.DEBUG)
-					Log.d(TAG, "URL: " + url);
+			DefaultHttpClient client = new DefaultHttpClient();
+			HttpGet getRequest = new HttpGet(url);
 
-				DefaultHttpClient client = new DefaultHttpClient();
-				HttpGet getRequest = new HttpGet(url);
-
-				try {
-					HttpResponse getResponse = client.execute(getRequest);
-					int statusCode = getResponse.getStatusLine()
-							.getStatusCode();
-					if (statusCode != HttpStatus.SC_OK) {
-						throw new Exception("Erro: " + statusCode);
-					}
-
-					HttpEntity entity = getResponse.getEntity();
-					if (entity != null) {
-						json = Utils.convertStreamToString(entity.getContent());
-						rodadaWrapper = getRodadaWrapper(json);
-						Utils.saveRodadaJson(json,
-								rodadaWrapper.dadosRodada.rodada, (rodada == 0));
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				} finally {
-					client.getConnectionManager().shutdown();
+			try {
+				HttpResponse getResponse = client.execute(getRequest);
+				int statusCode = getResponse.getStatusLine().getStatusCode();
+				if (statusCode != HttpStatus.SC_OK) {
+					throw new Exception("Erro: " + statusCode);
 				}
-			} else {
-				json = Utils.getRodadaJson(rodada);
-				rodadaWrapper = getRodadaWrapper(json);
+
+				HttpEntity entity = getResponse.getEntity();
+				if (entity != null) {
+					json = Utils.convertStreamToString(entity.getContent());
+					rodadaWrapper = getRodadaWrapper(json);
+					Utils.saveRodadaJson(json,
+							rodadaWrapper.dadosRodada.rodada, (rodada == 0));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				client.getConnectionManager().shutdown();
 			}
 		} else {
 			json = Utils.getRodadaJson(rodada);
 			rodadaWrapper = getRodadaWrapper(json);
-		}
-
-		if (json == null && !forceUpdate) {
-			rodadaWrapper = obterRodada(rodada, true);
 		}
 
 		return rodadaWrapper;

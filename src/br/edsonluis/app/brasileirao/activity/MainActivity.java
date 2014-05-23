@@ -1,12 +1,12 @@
 package br.edsonluis.app.brasileirao.activity;
 
+import android.app.AlertDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
 import br.edsonluis.app.brasileirao.BrasileiraoApplication;
 import br.edsonluis.app.brasileirao.R;
 import br.edsonluis.app.brasileirao.fragment.JogosFragment;
@@ -101,27 +101,24 @@ public class MainActivity extends ActionBarActivity implements
 
 		case 1:
 			transaction.replace(R.id.container, new JogosFragment());
-			transaction.addToBackStack(null);
 			break;
 
 		case 2:
 			transaction.replace(R.id.container, new SobreFragment());
-			transaction.addToBackStack(null);
 			break;
 		}
 		transaction.commit();
 
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		if (!mNavigationDrawerFragment.isDrawerOpen()) {
-			return true;
-		}
-		return true;
+	
+	public void showMensagemErroGenerico() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(getString(R.string.app_name));
+		builder.setMessage(getString(R.string.mensagem_erro_generico));
+		builder.setPositiveButton("OK", null);
+		builder.create().show();
 	}
-
+	
 	public void restoreActionBar() {
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);

@@ -3,7 +3,7 @@ package br.edsonluis.app.brasileirao.util;
 
 public class Constantes {
 
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 	
 	public static final int EDICAO = 2014;
 	

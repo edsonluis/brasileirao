@@ -2,7 +2,6 @@
 <resources>
 
     <string name="app_name">Brasileirão 2014</string>
-    <string name="activity_title">Brasileirão</string>
     <string name="dialog_carregando">Carregando&#8230;</string>
     <string name="label_jogos">J</string>
     <string name="label_vitorias">V</string>
@@ -14,8 +13,10 @@
     <string name="label_saldo_gols">SG</string>
     <string name="label_versus">X</string>
     <string name="label_separador">-</string>
-    <string name="menu_refresh">Atualizar</string>
-    <string name="mensagem_sem_internet">Seu dispositivo está sem internet.</string>
+    <string name="label_copyright">by Edson Silva</string>
+    <string name="label_versao">Versão: 1.0.0</string>
+    <string name="label_info_futebits">Dados obtidos da:</string>
+    <string name="mensagem_erro_generico">Ocorreu um problema ao atualizar os dados, verifique sua conexão com a internet.</string>
     
     <string-array name="nav_drawer_items">
         <item>Tabela</item>
@@ -26,4 +27,5 @@
     <string name="ads_unit_id">ca-app-pub-9009893795627397/3635996062</string>
     <string name="device_test_id">040E5414F1FE9A0FEBAF5A6E496488B1</string>
     
+    <string name="futebits">http://www.futebits.com.br</string>
 </resources>

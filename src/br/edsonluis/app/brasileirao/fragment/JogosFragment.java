@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,6 +23,9 @@ import br.edsonluis.app.brasileirao.model.Rodada;
 import br.edsonluis.app.brasileirao.model.RodadaWrapper;
 import br.edsonluis.app.brasileirao.util.Constantes;
 import br.edsonluis.app.brasileirao.util.Utils;
+
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 public class JogosFragment extends Fragment implements
 		ActionBar.OnNavigationListener, SwipeRefreshLayout.OnRefreshListener {
@@ -140,6 +140,9 @@ public class JogosFragment extends Fragment implements
 					listAdapter = new JogosAdapter(context, listJogos);
 					listAdapter.notifyDataSetChanged();
 					listView.setAdapter(listAdapter);
+				} else {
+					listView.removeAllViews();
+					context.showMensagemErroGenerico();
 				}
 			};
 
@@ -149,7 +152,7 @@ public class JogosFragment extends Fragment implements
 	@Override
 	public boolean onNavigationItemSelected(int position, long id) {
 		rodadaAtual = position + 1;
-		loadData(false);
+		loadData(true);
 		return true;
 	}
 

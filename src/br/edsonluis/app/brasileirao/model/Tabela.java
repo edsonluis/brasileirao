@@ -20,7 +20,6 @@ public class Tabela implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = Tabela.class.getSimpleName();
-//	private static final Context context = BrasileiraoApplication.getContext();
 
 	public Equipe Equipe;
 	public String P;
@@ -59,47 +58,35 @@ public class Tabela implements Serializable {
 		TabelaWrapper tabelaWrapper = null;
 		String json = null;
 
-		if (Utils.isOnline()) {
-			if (forceUpdate) {
+		if (Utils.isOnline() && forceUpdate) {
+			if (Constantes.DEBUG)
+				Log.d(TAG, "URL: " + Constantes.URL_TABELA);
 
-				if (Constantes.DEBUG)
-					Log.d(TAG, "URL: " + Constantes.URL_TABELA);
+			DefaultHttpClient client = new DefaultHttpClient();
+			HttpGet getRequest = new HttpGet(Constantes.URL_TABELA);
 
-				DefaultHttpClient client = new DefaultHttpClient();
-				HttpGet getRequest = new HttpGet(Constantes.URL_TABELA);
-
-				try {
-					HttpResponse getResponse = client.execute(getRequest);
-					int statusCode = getResponse.getStatusLine()
-							.getStatusCode();
-					if (statusCode != HttpStatus.SC_OK) {
-						throw new Exception("Erro: " + statusCode);
-					}
-
-					HttpEntity entity = getResponse.getEntity();
-					if (entity != null) {
-						json = Utils.convertStreamToString(entity.getContent());
-						tabelaWrapper = getTabelaWrapper(json);
-						Utils.saveTabelaJson(json);
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				} finally {
-					client.getConnectionManager().shutdown();
+			try {
+				HttpResponse getResponse = client.execute(getRequest);
+				int statusCode = getResponse.getStatusLine().getStatusCode();
+				if (statusCode != HttpStatus.SC_OK) {
+					throw new Exception("Erro: " + statusCode);
 				}
-			} else {
-				json = Utils.getTabelaJson();
-				tabelaWrapper = getTabelaWrapper(json);
+
+				HttpEntity entity = getResponse.getEntity();
+				if (entity != null) {
+					json = Utils.convertStreamToString(entity.getContent());
+					tabelaWrapper = getTabelaWrapper(json);
+					Utils.saveTabelaJson(json);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				client.getConnectionManager().shutdown();
 			}
 		} else {
 			json = Utils.getTabelaJson();
 			tabelaWrapper = getTabelaWrapper(json);
 		}
-
-//		if (json == null) {
-//			tabelaWrapper = new TabelaWrapper();
-//			tabelaWrapper.tabela = obterTabela(true);
-//		}
 
 		return (tabelaWrapper != null) ? tabelaWrapper.tabela
 				: new ArrayList<Tabela>();

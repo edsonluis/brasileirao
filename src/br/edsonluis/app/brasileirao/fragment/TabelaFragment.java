@@ -85,6 +85,8 @@ public class TabelaFragment extends Fragment implements
 
 		if (forceUpdate)
 			Utils.updateFirstRun();
+		else if (Utils.isOnline())
+			forceUpdate = true;
 
 		return forceUpdate;
 	}
@@ -116,6 +118,8 @@ public class TabelaFragment extends Fragment implements
 								tableLayout.removeViewAt(item.Posicao);
 							tableLayout.addView(getRowView(item), item.Posicao);
 						}
+					} else {
+						context.showMensagemErroGenerico();
 					}
 				};
 
