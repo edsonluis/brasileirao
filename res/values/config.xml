@@ -9,5 +9,9 @@
 
     <!-- Enable automatic exception tracking -->
     <bool name="ga_reportUncaughtExceptions">true</bool>
+    
+    <string name="ads_unit_id">ca-app-pub-9009893795627397/3635996062</string>
+    
+    <string name="device_test_id">040E5414F1FE9A0FEBAF5A6E496488B1</string>
 
 </resources>

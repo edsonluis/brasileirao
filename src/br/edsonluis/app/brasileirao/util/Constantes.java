@@ -1,11 +1,12 @@
 package br.edsonluis.app.brasileirao.util;
 
+
 public class Constantes {
 
 	public static final boolean DEBUG = true;
 	
 	public static final int EDICAO = 2014;
-
+	
 	private static final String URL_DEFAULT = "http://www.futebits.com.br/ws/api/";
 	private static final String URL_PARAM_SERIE_A = "/Campeonato%20Brasileiro/Serie%20A/" + EDICAO + "/Turno/Grupo%20Unico";
 	

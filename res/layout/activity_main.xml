@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             ads:adSize="BANNER"
-            ads:adUnitId="ca-app-pub-9009893795627397/3635996062" />
+            ads:adUnitId="@string/ads_unit_id" />
     </RelativeLayout>
 
     <fragment

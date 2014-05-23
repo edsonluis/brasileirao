@@ -28,12 +28,12 @@ public class MainActivity extends ActionBarActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_home);
+		setContentView(R.layout.activity_main);
 
 		adView = (AdView) this.findViewById(R.id.adView);
 		AdRequest adRequest = new AdRequest.Builder()
 				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-				.addTestDevice("040E5414F1FE9A0FEBAF5A6E496488B1").build();
+				.addTestDevice(getString(R.string.device_test_id)).build();
 		adView.loadAd(adRequest);
 
 		mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager()
@@ -98,12 +98,12 @@ public class MainActivity extends ActionBarActivity implements
 
 		case 1:
 			transaction.replace(R.id.container, new JogosFragment());
-//			transaction.addToBackStack(null);
+			transaction.addToBackStack(null);
 			break;
 
 		case 2:
 			transaction.replace(R.id.container, new SobreFragment());
-//			transaction.addToBackStack(null);
+			transaction.addToBackStack(null);
 			break;
 		}
 		transaction.commit();
