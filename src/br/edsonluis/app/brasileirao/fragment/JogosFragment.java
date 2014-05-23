@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import br.edsonluis.app.brasileirao.BrasileiraoApplication;
 import br.edsonluis.app.brasileirao.R;
 import br.edsonluis.app.brasileirao.activity.MainActivity;
 import br.edsonluis.app.brasileirao.adapter.JogosAdapter;
@@ -38,6 +42,12 @@ public class JogosFragment extends Fragment implements
 	private int rodadaAtual;
 
 	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		setRetainInstance(true);
+	}
+	
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_jogos, container, false);
@@ -58,8 +68,17 @@ public class JogosFragment extends Fragment implements
 				Constantes.RODADA_ATUAL, 0) - 1;
 
 		actionBar.setSelectedNavigationItem(rodadaAtual);
+		
+		setTracker();
 	}
 
+	private void setTracker() {
+		Tracker t = ((BrasileiraoApplication) context.getApplication())
+				.getTracker(BrasileiraoApplication.TrackerName.APP_TRACKER);
+		t.setScreenName("Jogos Fragment");
+		t.send(new HitBuilders.AppViewBuilder().build());
+	}
+	
 	private void setSwipeLayout() {
 
 		swipeLayout = (SwipeRefreshLayout) context

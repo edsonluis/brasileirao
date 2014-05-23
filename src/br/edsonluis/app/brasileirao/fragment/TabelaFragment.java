@@ -2,6 +2,9 @@ package br.edsonluis.app.brasileirao.fragment;
 
 import java.util.List;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
+import br.edsonluis.app.brasileirao.BrasileiraoApplication;
 import br.edsonluis.app.brasileirao.R;
 import br.edsonluis.app.brasileirao.activity.MainActivity;
 import br.edsonluis.app.brasileirao.model.Tabela;
@@ -26,6 +30,12 @@ public class TabelaFragment extends Fragment implements
 	private List<Tabela> listData;
 	private MainActivity context;
 	private SwipeRefreshLayout swipeLayout;
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		setRetainInstance(true);
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,10 +52,20 @@ public class TabelaFragment extends Fragment implements
 
 		tableLayout = (TableLayout) context.findViewById(R.id.table_layout);
 		int dips = Utils.convertPixelsToDp(120);
-		tableLayout.getChildAt(0).findViewById(R.id.im_escudo).setLayoutParams(new LayoutParams(dips, dips));
+		tableLayout.getChildAt(0).findViewById(R.id.im_escudo)
+				.setLayoutParams(new LayoutParams(dips, dips));
 		setSwipeLayout();
 
 		loadData(checkFirstRun());
+		
+		setTracker();
+	}
+
+	private void setTracker() {
+		Tracker t = ((BrasileiraoApplication) context.getApplication())
+				.getTracker(BrasileiraoApplication.TrackerName.APP_TRACKER);
+		t.setScreenName("Tabela Fragment");
+		t.send(new HitBuilders.AppViewBuilder().build());
 	}
 
 	private void setSwipeLayout() {
@@ -94,8 +114,7 @@ public class TabelaFragment extends Fragment implements
 						for (Tabela item : listData) {
 							if (tableLayout.getChildAt(item.Posicao) != null)
 								tableLayout.removeViewAt(item.Posicao);
-							tableLayout.addView(getRowView(item),
-									item.Posicao);
+							tableLayout.addView(getRowView(item), item.Posicao);
 						}
 					}
 				};

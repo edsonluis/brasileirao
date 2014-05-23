@@ -7,6 +7,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
+import br.edsonluis.app.brasileirao.BrasileiraoApplication;
 import br.edsonluis.app.brasileirao.R;
 import br.edsonluis.app.brasileirao.fragment.JogosFragment;
 import br.edsonluis.app.brasileirao.fragment.NavigationDrawerFragment;
@@ -14,9 +15,9 @@ import br.edsonluis.app.brasileirao.fragment.SobreFragment;
 import br.edsonluis.app.brasileirao.fragment.TabelaFragment;
 import br.edsonluis.app.brasileirao.model.Rodada;
 
-import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.analytics.GoogleAnalytics;
 
 public class MainActivity extends ActionBarActivity implements
 		NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -36,6 +37,8 @@ public class MainActivity extends ActionBarActivity implements
 				.addTestDevice(getString(R.string.device_test_id)).build();
 		adView.loadAd(adRequest);
 
+		((BrasileiraoApplication) getApplication()).getTracker(BrasileiraoApplication.TrackerName.APP_TRACKER);
+		
 		mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.navigation_drawer);
 		mTitle = getTitle();
@@ -59,32 +62,32 @@ public class MainActivity extends ActionBarActivity implements
 
 	@Override
 	public void onPause() {
-	  adView.pause();
-	  super.onPause();
+		adView.pause();
+		super.onPause();
 	}
 
 	@Override
 	public void onResume() {
-	  super.onResume();
-	  adView.resume();
+		super.onResume();
+		adView.resume();
 	}
 
 	@Override
 	public void onDestroy() {
-	  adView.destroy();
-	  super.onDestroy();
-	}
-	
-	@Override
-	public void onStart() {
-		super.onStart();
-		EasyTracker.getInstance(this).activityStart(this);
+		adView.destroy();
+		super.onDestroy();
 	}
 
 	@Override
-	public void onStop() {
+	protected void onStart() {
+		super.onStart();
+		GoogleAnalytics.getInstance(this).reportActivityStart(this);
+	}
+
+	@Override
+	protected void onStop() {
 		super.onStop();
-		EasyTracker.getInstance(this).activityStop(this);
+		GoogleAnalytics.getInstance(this).reportActivityStop(this);
 	}
 
 	@Override
@@ -110,13 +113,6 @@ public class MainActivity extends ActionBarActivity implements
 
 	}
 
-	public void restoreActionBar() {
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-		actionBar.setDisplayShowTitleEnabled(true);
-		actionBar.setTitle(mTitle);
-	}
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
@@ -124,6 +120,13 @@ public class MainActivity extends ActionBarActivity implements
 			return true;
 		}
 		return true;
+	}
+
+	public void restoreActionBar() {
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		actionBar.setDisplayShowTitleEnabled(true);
+		actionBar.setTitle(mTitle);
 	}
 
 }
