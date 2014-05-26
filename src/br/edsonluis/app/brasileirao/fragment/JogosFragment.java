@@ -92,11 +92,12 @@ public class JogosFragment extends Fragment implements
 	private void setActionBar() {
 
 		actionBar = context.getSupportActionBar();
+		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
 		List<String> dropdownValues = new ArrayList<String>();
 		for (int i = 0; i < Constantes.QTD_RODADAS; i++) {
-			dropdownValues.add("RODADA " + (i + 1));
+			dropdownValues.add((i + 1) + "ª RODADA");
 		}
 
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(

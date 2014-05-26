@@ -2,8 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="#fff"
     android:choiceMode="singleChoice"
-    android:divider="@color/holo_blue_light"
-    android:dividerHeight="1dp"
+    android:divider="@android:color/darker_gray"
+    android:dividerHeight="0.1dp"
+    android:textColor="@android:color/white"
     tools:context="br.edsonluis.app.brasileirao.fragment.NavigationDrawerFragment" />

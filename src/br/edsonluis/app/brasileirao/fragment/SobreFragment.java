@@ -45,6 +45,7 @@ public class SobreFragment extends Fragment {
 
 		context = (MainActivity) getActivity();
 		context.restoreActionBar();
+		context.getSupportActionBar().setTitle(R.string.title_sobre);
 
 		ImageButton b = (ImageButton) context.findViewById(R.id.futebits_logo);
 		b.setOnClickListener(new OnClickListener() {

@@ -17,13 +17,8 @@
     <string name="label_versao">Versão: 1.0.0</string>
     <string name="label_info_futebits">Dados obtidos da:</string>
     <string name="mensagem_erro_generico">Ocorreu um problema ao atualizar os dados, verifique sua conexão com a internet.</string>
+    <string name="title_sobre">Sobre</string>
     
-    <string-array name="nav_drawer_items">
-        <item>Tabela</item>
-        <item>Jogos</item>
-        <item>Sobre</item>
-    </string-array>
-
     <string name="ads_unit_id">ca-app-pub-9009893795627397/3635996062</string>
     <string name="device_test_id">040E5414F1FE9A0FEBAF5A6E496488B1</string>
     

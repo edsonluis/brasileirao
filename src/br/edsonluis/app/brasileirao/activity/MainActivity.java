@@ -121,7 +121,7 @@ public class MainActivity extends ActionBarActivity implements
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(getString(R.string.app_name));
 		builder.setMessage(getString(R.string.mensagem_erro_generico));
-		builder.setPositiveButton("OK", null);
+		builder.setPositiveButton(android.R.string.ok, null);
 		builder.create().show();
 	}
 	
