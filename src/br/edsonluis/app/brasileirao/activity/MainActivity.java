@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.view.View;
 import br.edsonluis.app.brasileirao.BrasileiraoApplication;
 import br.edsonluis.app.brasileirao.R;
 import br.edsonluis.app.brasileirao.fragment.JogosFragment;
@@ -35,7 +36,12 @@ public class MainActivity extends ActionBarActivity implements
 		AdRequest adRequest = new AdRequest.Builder()
 				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
 				.addTestDevice(getString(R.string.device_test_id)).build();
-		adView.loadAd(adRequest);
+		
+		if (adRequest.isTestDevice(this)) {
+			adView.setVisibility(View.GONE);
+		} else {
+			adView.loadAd(adRequest);
+		}
 
 		((BrasileiraoApplication) getApplication()).getTracker(BrasileiraoApplication.TrackerName.APP_TRACKER);
 		

@@ -98,6 +98,7 @@ public class TabelaFragment extends Fragment implements
 
 				protected void onPreExecute() {
 					swipeLayout.setRefreshing(true);
+					tableLayout.setVisibility(View.GONE);
 				};
 
 				@Override
@@ -118,6 +119,7 @@ public class TabelaFragment extends Fragment implements
 								tableLayout.removeViewAt(item.Posicao);
 							tableLayout.addView(getRowView(item), item.Posicao);
 						}
+						tableLayout.setVisibility(View.VISIBLE);
 					} else {
 						context.showMensagemErroGenerico();
 					}
