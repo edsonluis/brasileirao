@@ -80,6 +80,9 @@ public class Tabela implements Serializable {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
+				json = Utils.getTabelaJson();
+				if (json != null)
+					tabelaWrapper = getTabelaWrapper(json);
 			} finally {
 				client.getConnectionManager().shutdown();
 			}

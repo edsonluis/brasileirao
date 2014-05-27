@@ -70,6 +70,9 @@ public class Rodada implements Serializable {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
+				json = Utils.getRodadaJson(rodada);
+				if (json != null)
+					rodadaWrapper = getRodadaWrapper(json);
 			} finally {
 				client.getConnectionManager().shutdown();
 			}
