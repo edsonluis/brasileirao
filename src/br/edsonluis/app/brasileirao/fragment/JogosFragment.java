@@ -141,8 +141,9 @@ public class JogosFragment extends Fragment implements
 					listAdapter = new JogosAdapter(context, listJogos);
 					listAdapter.notifyDataSetChanged();
 					listView.setAdapter(listAdapter);
+					listView.setVisibility(View.VISIBLE);
 				} else {
-					listView.removeAllViews();
+					listView.setVisibility(View.GONE);
 					context.showMensagemErroGenerico();
 				}
 			};
