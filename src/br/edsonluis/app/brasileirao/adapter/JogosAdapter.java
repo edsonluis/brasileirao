@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +58,12 @@ public class JogosAdapter extends BaseAdapter {
 		
 		Jogos item = getItem(position);
 		
-		int dips = Utils.convertPixelsToDp(220);
+		int dips;
+		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
+			dips = Utils.convertPixelsToDp(40);
+		} else {
+			dips = Utils.convertPixelsToDp(220);
+		}
 		escudo_m.setLayoutParams(new LayoutParams(dips, dips));
 		escudo_m.setImageResource(item.getEscudoMandante());
 		

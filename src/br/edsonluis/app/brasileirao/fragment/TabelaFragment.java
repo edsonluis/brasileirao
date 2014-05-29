@@ -3,6 +3,7 @@ package br.edsonluis.app.brasileirao.fragment;
 import java.util.List;
 
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -47,7 +48,12 @@ public class TabelaFragment extends Fragment implements
 		mContext.restoreActionBar();
 
 		mTableLayout = (TableLayout) mContext.findViewById(R.id.table_layout);
-		int dips = Utils.convertPixelsToDp(120);
+		int dips;
+		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
+			dips = Utils.convertPixelsToDp(20);
+		} else {
+			dips = Utils.convertPixelsToDp(120);
+		}
 		mTableLayout.getChildAt(0).findViewById(R.id.im_escudo)
 				.setLayoutParams(new LayoutParams(dips, dips));
 		setSwipeLayout();
@@ -142,7 +148,12 @@ public class TabelaFragment extends Fragment implements
 		gols_pro.setText(item.GP);
 		gols_contra.setText(item.GC);
 		saldo_gols.setText(item.SG);
-		int dips = Utils.convertPixelsToDp(120);
+		int dips;
+		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
+			dips = Utils.convertPixelsToDp(20);
+		} else {
+			dips = Utils.convertPixelsToDp(120);
+		}
 		escudo.setLayoutParams(new LayoutParams(dips, dips));
 		escudo.setImageDrawable(getResources().getDrawable(item.getEscudo()));
 
