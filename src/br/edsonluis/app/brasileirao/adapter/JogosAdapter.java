@@ -62,7 +62,7 @@ public class JogosAdapter extends BaseAdapter {
 		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
 			dips = Utils.convertPixelsToDp(40);
 		} else {
-			dips = Utils.convertPixelsToDp(220);
+			dips = Utils.convertPixelsToDp(240);
 		}
 		escudo_m.setLayoutParams(new LayoutParams(dips, dips));
 		escudo_m.setImageResource(item.getEscudoMandante());
