@@ -16,6 +16,9 @@
 	<!-- How long a session exists before giving up -->
 	<integer name="ga_sessionTimeout">-1</integer>
     
-    <screenName name="br.edsonluis.app.brasileirao.activity.MainActivity">Main Activity</screenName>
+    <screenName name="br.edsonluis.app.brasileirao.activity.MainActivity">Tabela</screenName>
+    <screenName name="br.edsonluis.app.brasileirao.activity.JogosActivity">Jogos</screenName>
+    <screenName name="br.edsonluis.app.brasileirao.activity.NoticiasActivity">Noticias</screenName>
+    <screenName name="br.edsonluis.app.brasileirao.activity.SobreActivity">Sobre</screenName>
     
 </resources>

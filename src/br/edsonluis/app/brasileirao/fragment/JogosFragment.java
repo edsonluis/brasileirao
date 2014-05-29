@@ -14,9 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import br.edsonluis.app.brasileirao.BrasileiraoApplication;
 import br.edsonluis.app.brasileirao.R;
-import br.edsonluis.app.brasileirao.activity.MainActivity;
+import br.edsonluis.app.brasileirao.activity.JogosActivity;
 import br.edsonluis.app.brasileirao.adapter.JogosAdapter;
 import br.edsonluis.app.brasileirao.model.Jogos;
 import br.edsonluis.app.brasileirao.model.Rodada;
@@ -24,16 +23,13 @@ import br.edsonluis.app.brasileirao.model.RodadaWrapper;
 import br.edsonluis.app.brasileirao.util.Constantes;
 import br.edsonluis.app.brasileirao.util.Utils;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-
 public class JogosFragment extends Fragment implements
 		ActionBar.OnNavigationListener, SwipeRefreshLayout.OnRefreshListener {
 
 	public static final String ARG_SECTION_NUMBER = "section_number";
 
 	private ActionBar mActionBar;
-	private MainActivity mContext;
+	private JogosActivity mContext;
 	private Rodada dadosRodada;
 	private List<Jogos> listJogos;
 	private ListView mListView;
@@ -57,7 +53,7 @@ public class JogosFragment extends Fragment implements
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
-		mContext = (MainActivity) getActivity();
+		mContext = (JogosActivity) getActivity();
 
 		mListView = (ListView) mContext.findViewById(R.id.listview_jogos);
 
@@ -68,15 +64,6 @@ public class JogosFragment extends Fragment implements
 				Constantes.RODADA_ATUAL, 0) - 1;
 
 		mActionBar.setSelectedNavigationItem(rodadaAtual);
-
-		setTracker();
-	}
-
-	private void setTracker() {
-		Tracker t = ((BrasileiraoApplication) mContext.getApplication())
-				.getTracker(BrasileiraoApplication.TrackerName.APP_TRACKER);
-		t.setScreenName("Jogos Fragment");
-		t.send(new HitBuilders.AppViewBuilder().build());
 	}
 
 	private void setSwipeLayout() {

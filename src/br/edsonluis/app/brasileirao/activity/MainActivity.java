@@ -1,6 +1,7 @@
 package br.edsonluis.app.brasileirao.activity;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -10,10 +11,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import br.edsonluis.app.brasileirao.BrasileiraoApplication;
 import br.edsonluis.app.brasileirao.R;
-import br.edsonluis.app.brasileirao.fragment.JogosFragment;
 import br.edsonluis.app.brasileirao.fragment.NavigationDrawerFragment;
-import br.edsonluis.app.brasileirao.fragment.NoticiasFragment;
-import br.edsonluis.app.brasileirao.fragment.SobreFragment;
 import br.edsonluis.app.brasileirao.fragment.TabelaFragment;
 import br.edsonluis.app.brasileirao.model.Rodada;
 
@@ -33,19 +31,11 @@ public class MainActivity extends ActionBarActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		adView = (AdView) this.findViewById(R.id.adView);
-		AdRequest adRequest = new AdRequest.Builder()
-				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-				.addTestDevice(getString(R.string.device_test_id)).build();
-		
-		if (adRequest.isTestDevice(this)) {
-			adView.setVisibility(View.GONE);
-		} else {
-			adView.loadAd(adRequest);
-		}
+		setAdView();
 
-		((BrasileiraoApplication) getApplication()).getTracker(BrasileiraoApplication.TrackerName.APP_TRACKER);
-		
+		((BrasileiraoApplication) getApplication())
+				.getTracker(BrasileiraoApplication.TrackerName.APP_TRACKER);
+
 		mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.navigation_drawer);
 		mTitle = getTitle();
@@ -65,6 +55,20 @@ public class MainActivity extends ActionBarActivity implements
 				return null;
 			}
 		}.execute();
+	}
+
+	private void setAdView() {
+
+		adView = (AdView) this.findViewById(R.id.adView);
+		AdRequest adRequest = new AdRequest.Builder()
+				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+				.addTestDevice(getString(R.string.device_test_id)).build();
+
+		if (adRequest.isTestDevice(this)) {
+			adView.setVisibility(View.GONE);
+		} else {
+			adView.loadAd(adRequest);
+		}
 	}
 
 	@Override
@@ -99,29 +103,29 @@ public class MainActivity extends ActionBarActivity implements
 
 	@Override
 	public void onNavigationDrawerItemSelected(int position) {
-		FragmentTransaction transaction = getSupportFragmentManager()
-				.beginTransaction();
 		switch (position) {
 		case 0:
+			FragmentTransaction transaction = getSupportFragmentManager()
+					.beginTransaction();
 			transaction.replace(R.id.container, new TabelaFragment());
+			transaction.commit();
 			break;
 
 		case 1:
-			transaction.replace(R.id.container, new JogosFragment());
+			startActivity(new Intent(this, JogosActivity.class));
 			break;
 
 		case 2:
-			transaction.replace(R.id.container, new NoticiasFragment());
+			startActivity(new Intent(this, NoticiasActivity.class));
 			break;
 
 		case 3:
-			transaction.replace(R.id.container, new SobreFragment());
+			startActivity(new Intent(this, SobreActivity.class));
 			break;
 		}
-		transaction.commit();
 
 	}
-	
+
 	public void showMensagemErroGenerico() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(getString(R.string.app_name));
@@ -129,7 +133,7 @@ public class MainActivity extends ActionBarActivity implements
 		builder.setPositiveButton(android.R.string.ok, null);
 		builder.create().show();
 	}
-	
+
 	public void restoreActionBar() {
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);

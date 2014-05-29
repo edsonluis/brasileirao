@@ -5,6 +5,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -15,17 +16,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import br.edsonluis.app.brasileirao.BrasileiraoApplication;
 import br.edsonluis.app.brasileirao.R;
-import br.edsonluis.app.brasileirao.activity.MainActivity;
 import br.edsonluis.app.brasileirao.util.Utils;
-
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 public class SobreFragment extends Fragment {
 
-	private MainActivity mContext;
+	private Activity mContext;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -43,9 +39,7 @@ public class SobreFragment extends Fragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
-		mContext = (MainActivity) getActivity();
-		mContext.restoreActionBar();
-		mContext.getSupportActionBar().setTitle(R.string.title_sobre);
+		mContext = getActivity();
 
 		ImageButton b = (ImageButton) mContext.findViewById(R.id.futebits_logo);
 		b.setOnClickListener(new OnClickListener() {
@@ -56,8 +50,6 @@ public class SobreFragment extends Fragment {
 						.parse("http://www.futebits.com.br/")));
 			}
 		});
-
-		setTracker();
 
 		new AsyncTask<Void, Void, Void>() {
 
@@ -84,13 +76,6 @@ public class SobreFragment extends Fragment {
 			}
 		}.execute();
 
-	}
-
-	private void setTracker() {
-		Tracker t = ((BrasileiraoApplication) mContext.getApplication())
-				.getTracker(BrasileiraoApplication.TrackerName.APP_TRACKER);
-		t.setScreenName("Sobre Fragment");
-		t.send(new HitBuilders.AppViewBuilder().build());
 	}
 
 }

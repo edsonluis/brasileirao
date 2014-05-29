@@ -13,15 +13,11 @@ import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
-import br.edsonluis.app.brasileirao.BrasileiraoApplication;
 import br.edsonluis.app.brasileirao.R;
 import br.edsonluis.app.brasileirao.activity.MainActivity;
 import br.edsonluis.app.brasileirao.model.Tabela;
 import br.edsonluis.app.brasileirao.util.Constantes;
 import br.edsonluis.app.brasileirao.util.Utils;
-
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 public class TabelaFragment extends Fragment implements
 		SwipeRefreshLayout.OnRefreshListener {
@@ -57,15 +53,6 @@ public class TabelaFragment extends Fragment implements
 		setSwipeLayout();
 
 		loadData(checkFirstRun());
-
-		setTracker();
-	}
-
-	private void setTracker() {
-		Tracker t = ((BrasileiraoApplication) mContext.getApplication())
-				.getTracker(BrasileiraoApplication.TrackerName.APP_TRACKER);
-		t.setScreenName("Tabela Fragment");
-		t.send(new HitBuilders.AppViewBuilder().build());
 	}
 
 	private void setSwipeLayout() {

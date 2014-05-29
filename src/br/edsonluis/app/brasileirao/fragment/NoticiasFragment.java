@@ -10,6 +10,7 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -22,20 +23,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import br.edsonluis.app.brasileirao.BrasileiraoApplication;
 import br.edsonluis.app.brasileirao.R;
-import br.edsonluis.app.brasileirao.activity.MainActivity;
 import br.edsonluis.app.brasileirao.adapter.RSSAdapter;
 import br.edsonluis.app.brasileirao.model.RSSItem;
 import br.edsonluis.app.brasileirao.util.RSSParser;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-
 public class NoticiasFragment extends Fragment implements
 		SwipeRefreshLayout.OnRefreshListener {
 
-	private MainActivity mContext;
+	private Activity mContext;
 	private SwipeRefreshLayout mSwipeLayout;
 	private ListView mListView;
 	private ArrayList<RSSItem> mListData;
@@ -57,9 +53,7 @@ public class NoticiasFragment extends Fragment implements
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
-		mContext = (MainActivity) getActivity();
-		mContext.restoreActionBar();
-		mContext.getSupportActionBar().setTitle(R.string.title_noticias);
+		mContext = getActivity();
 		mSwipeLayout = (SwipeRefreshLayout) mContext
 				.findViewById(R.id.swipe_container);
 		mListView = (ListView) mContext.findViewById(R.id.list_noticias);
@@ -78,8 +72,6 @@ public class NoticiasFragment extends Fragment implements
 
 		new RSSTask().execute();
 
-		setTracker();
-
 		setSwipeLayout();
 
 	}
@@ -92,13 +84,6 @@ public class NoticiasFragment extends Fragment implements
 		mSwipeLayout.setColorScheme(R.color.holo_green_dark,
 				R.color.holo_red_dark, R.color.holo_blue_dark,
 				R.color.holo_orange_dark);
-	}
-
-	private void setTracker() {
-		Tracker t = ((BrasileiraoApplication) mContext.getApplication())
-				.getTracker(BrasileiraoApplication.TrackerName.APP_TRACKER);
-		t.setScreenName("Noticias Fragment");
-		t.send(new HitBuilders.AppViewBuilder().build());
 	}
 
 	@Override

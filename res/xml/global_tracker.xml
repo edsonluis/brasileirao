@@ -11,6 +11,9 @@
 <bool name="ga_dryRun">false</bool>
 
 <!-- The screen names that will appear in reports -->
-<string name="br.edsonluis.app.brasileirao.activity.MainActivity">Main Activity</string>
+<string name="br.edsonluis.app.brasileirao.activity.MainActivity">Tabela</string>
+<string name="br.edsonluis.app.brasileirao.activity.JogosActivity">Jogos</string>
+<string name="br.edsonluis.app.brasileirao.activity.NoticiasActivity">Noticias</string>
+<string name="br.edsonluis.app.brasileirao.activity.SobreActivity">Sobre</string>
     
 </resources>
