@@ -32,13 +32,13 @@ public class JogosFragment extends Fragment implements
 
 	public static final String ARG_SECTION_NUMBER = "section_number";
 
-	private ActionBar actionBar;
-	private MainActivity context;
+	private ActionBar mActionBar;
+	private MainActivity mContext;
 	private Rodada dadosRodada;
 	private List<Jogos> listJogos;
-	private ListView listView;
-	private JogosAdapter listAdapter;
-	private SwipeRefreshLayout swipeLayout;
+	private ListView mListView;
+	private JogosAdapter mListAdapter;
+	private SwipeRefreshLayout mSwipeLayout;
 	private int rodadaAtual;
 
 	@Override
@@ -46,7 +46,7 @@ public class JogosFragment extends Fragment implements
 		super.onActivityCreated(savedInstanceState);
 		setRetainInstance(true);
 	}
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -57,9 +57,9 @@ public class JogosFragment extends Fragment implements
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
-		context = (MainActivity) getActivity();
+		mContext = (MainActivity) getActivity();
 
-		listView = (ListView) context.findViewById(R.id.listview_jogos);
+		mListView = (ListView) mContext.findViewById(R.id.listview_jogos);
 
 		setActionBar();
 		setSwipeLayout();
@@ -67,33 +67,33 @@ public class JogosFragment extends Fragment implements
 		rodadaAtual = Utils.getSharedPreferences().getInt(
 				Constantes.RODADA_ATUAL, 0) - 1;
 
-		actionBar.setSelectedNavigationItem(rodadaAtual);
-		
+		mActionBar.setSelectedNavigationItem(rodadaAtual);
+
 		setTracker();
 	}
 
 	private void setTracker() {
-		Tracker t = ((BrasileiraoApplication) context.getApplication())
+		Tracker t = ((BrasileiraoApplication) mContext.getApplication())
 				.getTracker(BrasileiraoApplication.TrackerName.APP_TRACKER);
 		t.setScreenName("Jogos Fragment");
 		t.send(new HitBuilders.AppViewBuilder().build());
 	}
-	
+
 	private void setSwipeLayout() {
 
-		swipeLayout = (SwipeRefreshLayout) context
+		mSwipeLayout = (SwipeRefreshLayout) mContext
 				.findViewById(R.id.swipe_container);
-		swipeLayout.setOnRefreshListener(this);
-		swipeLayout.setColorScheme(R.color.holo_green_dark,
+		mSwipeLayout.setOnRefreshListener(this);
+		mSwipeLayout.setColorScheme(R.color.holo_green_dark,
 				R.color.holo_red_dark, R.color.holo_blue_dark,
 				R.color.holo_orange_dark);
 	}
 
 	private void setActionBar() {
 
-		actionBar = context.getSupportActionBar();
-		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+		mActionBar = mContext.getSupportActionBar();
+		mActionBar.setDisplayShowTitleEnabled(false);
+		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
 		List<String> dropdownValues = new ArrayList<String>();
 		for (int i = 0; i < Constantes.QTD_RODADAS; i++) {
@@ -101,12 +101,12 @@ public class JogosFragment extends Fragment implements
 		}
 
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-				actionBar.getThemedContext(),
+				mActionBar.getThemedContext(),
 				android.R.layout.simple_spinner_item, android.R.id.text1,
 				dropdownValues);
 
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		actionBar.setListNavigationCallbacks(adapter, this);
+		mActionBar.setListNavigationCallbacks(adapter, this);
 
 	}
 
@@ -117,7 +117,7 @@ public class JogosFragment extends Fragment implements
 			private RodadaWrapper rodadaWrapper;
 
 			protected void onPreExecute() {
-				swipeLayout.setRefreshing(true);
+				mSwipeLayout.setRefreshing(true);
 			};
 
 			@Override
@@ -134,17 +134,17 @@ public class JogosFragment extends Fragment implements
 			}
 
 			protected void onPostExecute(Void result) {
-				swipeLayout.setRefreshing(false);
+				mSwipeLayout.setRefreshing(false);
 				rodadaAtual = dadosRodada.rodada;
 				if (listJogos != null && listJogos.size() > 0) {
 					Collections.sort(listJogos);
-					listAdapter = new JogosAdapter(context, listJogos);
-					listAdapter.notifyDataSetChanged();
-					listView.setAdapter(listAdapter);
-					listView.setVisibility(View.VISIBLE);
+					mListAdapter = new JogosAdapter(mContext, listJogos);
+					mListAdapter.notifyDataSetChanged();
+					mListView.setAdapter(mListAdapter);
+					mListView.setVisibility(View.VISIBLE);
 				} else {
-					listView.setVisibility(View.GONE);
-					context.showMensagemErroGenerico();
+					mListView.setVisibility(View.GONE);
+					mContext.showMensagemErroGenerico();
 				}
 			};
 

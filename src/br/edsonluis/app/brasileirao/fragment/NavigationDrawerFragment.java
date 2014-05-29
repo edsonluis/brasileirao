@@ -48,9 +48,11 @@ public class NavigationDrawerFragment extends Fragment {
 	final private String TEXT = "text";
 	final private String ICON = "icon";
 
-	private String[] mItens = new String[] { "Classificação", "Jogos", "Sobre" };
+	private String[] mItens = new String[] { "Classificação", "Jogos",
+			"Notícias", "Sobre" };
 	private int[] mIcons = new int[] { R.drawable.ic_action_classificacao,
-			R.drawable.ic_action_jogos, R.drawable.ic_action_sobre };
+			R.drawable.ic_action_jogos, R.drawable.ic_action_noticias,
+			R.drawable.ic_action_sobre };
 
 	public NavigationDrawerFragment() {
 	}
@@ -94,7 +96,7 @@ public class NavigationDrawerFragment extends Fragment {
 				});
 
 		mList = new ArrayList<HashMap<String, String>>();
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < mItens.length; i++) {
 			HashMap<String, String> hm = new HashMap<String, String>();
 			hm.put(TEXT, mItens[i]);
 			hm.put(ICON, Integer.toString(mIcons[i]));

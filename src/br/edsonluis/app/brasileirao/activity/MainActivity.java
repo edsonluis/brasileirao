@@ -12,6 +12,7 @@ import br.edsonluis.app.brasileirao.BrasileiraoApplication;
 import br.edsonluis.app.brasileirao.R;
 import br.edsonluis.app.brasileirao.fragment.JogosFragment;
 import br.edsonluis.app.brasileirao.fragment.NavigationDrawerFragment;
+import br.edsonluis.app.brasileirao.fragment.NoticiasFragment;
 import br.edsonluis.app.brasileirao.fragment.SobreFragment;
 import br.edsonluis.app.brasileirao.fragment.TabelaFragment;
 import br.edsonluis.app.brasileirao.model.Rodada;
@@ -110,6 +111,10 @@ public class MainActivity extends ActionBarActivity implements
 			break;
 
 		case 2:
+			transaction.replace(R.id.container, new NoticiasFragment());
+			break;
+
+		case 3:
 			transaction.replace(R.id.container, new SobreFragment());
 			break;
 		}

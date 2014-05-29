@@ -2,9 +2,6 @@ package br.edsonluis.app.brasileirao.fragment;
 
 import java.util.List;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,13 +20,16 @@ import br.edsonluis.app.brasileirao.model.Tabela;
 import br.edsonluis.app.brasileirao.util.Constantes;
 import br.edsonluis.app.brasileirao.util.Utils;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 public class TabelaFragment extends Fragment implements
 		SwipeRefreshLayout.OnRefreshListener {
 
-	private TableLayout tableLayout;
-	private List<Tabela> listData;
-	private MainActivity context;
-	private SwipeRefreshLayout swipeLayout;
+	private TableLayout mTableLayout;
+	private List<Tabela> mListData;
+	private MainActivity mContext;
+	private SwipeRefreshLayout mSwipeLayout;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -47,22 +47,22 @@ public class TabelaFragment extends Fragment implements
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
-		context = (MainActivity) getActivity();
-		context.restoreActionBar();
+		mContext = (MainActivity) getActivity();
+		mContext.restoreActionBar();
 
-		tableLayout = (TableLayout) context.findViewById(R.id.table_layout);
+		mTableLayout = (TableLayout) mContext.findViewById(R.id.table_layout);
 		int dips = Utils.convertPixelsToDp(120);
-		tableLayout.getChildAt(0).findViewById(R.id.im_escudo)
+		mTableLayout.getChildAt(0).findViewById(R.id.im_escudo)
 				.setLayoutParams(new LayoutParams(dips, dips));
 		setSwipeLayout();
 
 		loadData(checkFirstRun());
-		
+
 		setTracker();
 	}
 
 	private void setTracker() {
-		Tracker t = ((BrasileiraoApplication) context.getApplication())
+		Tracker t = ((BrasileiraoApplication) mContext.getApplication())
 				.getTracker(BrasileiraoApplication.TrackerName.APP_TRACKER);
 		t.setScreenName("Tabela Fragment");
 		t.send(new HitBuilders.AppViewBuilder().build());
@@ -70,10 +70,10 @@ public class TabelaFragment extends Fragment implements
 
 	private void setSwipeLayout() {
 
-		swipeLayout = (SwipeRefreshLayout) context
+		mSwipeLayout = (SwipeRefreshLayout) mContext
 				.findViewById(R.id.swipe_container);
-		swipeLayout.setOnRefreshListener(this);
-		swipeLayout.setColorScheme(R.color.holo_green_dark,
+		mSwipeLayout.setOnRefreshListener(this);
+		mSwipeLayout.setColorScheme(R.color.holo_green_dark,
 				R.color.holo_red_dark, R.color.holo_blue_dark,
 				R.color.holo_orange_dark);
 	}
@@ -93,17 +93,17 @@ public class TabelaFragment extends Fragment implements
 
 	private void loadData(final boolean forceUpdate) {
 
-		if (forceUpdate || tableLayout.getChildCount() == 1) {
+		if (forceUpdate || mTableLayout.getChildCount() == 1) {
 			new AsyncTask<Void, Void, Void>() {
 
 				protected void onPreExecute() {
-					swipeLayout.setRefreshing(true);
+					mSwipeLayout.setRefreshing(true);
 				};
 
 				@Override
 				protected Void doInBackground(Void... params) {
 					try {
-						listData = Tabela.obterTabela(forceUpdate);
+						mListData = Tabela.obterTabela(forceUpdate);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -111,15 +111,16 @@ public class TabelaFragment extends Fragment implements
 				}
 
 				protected void onPostExecute(Void result) {
-					swipeLayout.setRefreshing(false);
-					if (listData != null && listData.size() > 0) {
-						for (Tabela item : listData) {
-							if (tableLayout.getChildAt(item.Posicao) != null)
-								tableLayout.removeViewAt(item.Posicao);
-							tableLayout.addView(getRowView(item), item.Posicao);
+					mSwipeLayout.setRefreshing(false);
+					if (mListData != null && mListData.size() > 0) {
+						for (Tabela item : mListData) {
+							if (mTableLayout.getChildAt(item.Posicao) != null)
+								mTableLayout.removeViewAt(item.Posicao);
+							mTableLayout
+									.addView(getRowView(item), item.Posicao);
 						}
 					} else {
-						context.showMensagemErroGenerico();
+						mContext.showMensagemErroGenerico();
 					}
 				};
 
@@ -128,7 +129,7 @@ public class TabelaFragment extends Fragment implements
 	}
 
 	public View getRowView(Tabela item) {
-		View view = context.getLayoutInflater().inflate(
+		View view = mContext.getLayoutInflater().inflate(
 				R.layout.tablerow_tabela_item, null);
 
 		TextView posicao = (TextView) view.findViewById(R.id.tv_posicao);

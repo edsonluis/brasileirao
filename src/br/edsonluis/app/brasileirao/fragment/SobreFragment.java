@@ -25,7 +25,7 @@ import com.google.android.gms.analytics.Tracker;
 
 public class SobreFragment extends Fragment {
 
-	private MainActivity context;
+	private MainActivity mContext;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -43,11 +43,11 @@ public class SobreFragment extends Fragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
-		context = (MainActivity) getActivity();
-		context.restoreActionBar();
-		context.getSupportActionBar().setTitle(R.string.title_sobre);
+		mContext = (MainActivity) getActivity();
+		mContext.restoreActionBar();
+		mContext.getSupportActionBar().setTitle(R.string.title_sobre);
 
-		ImageButton b = (ImageButton) context.findViewById(R.id.futebits_logo);
+		ImageButton b = (ImageButton) mContext.findViewById(R.id.futebits_logo);
 		b.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -87,7 +87,7 @@ public class SobreFragment extends Fragment {
 	}
 
 	private void setTracker() {
-		Tracker t = ((BrasileiraoApplication) context.getApplication())
+		Tracker t = ((BrasileiraoApplication) mContext.getApplication())
 				.getTracker(BrasileiraoApplication.TrackerName.APP_TRACKER);
 		t.setScreenName("Sobre Fragment");
 		t.send(new HitBuilders.AppViewBuilder().build());
