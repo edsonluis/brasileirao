@@ -91,6 +91,7 @@ public class TabelaFragment extends Fragment implements
 
 				protected void onPreExecute() {
 					mSwipeLayout.setRefreshing(true);
+					mSwipeLayout.setEnabled(false);
 				};
 
 				@Override
@@ -105,6 +106,7 @@ public class TabelaFragment extends Fragment implements
 
 				protected void onPostExecute(Void result) {
 					mSwipeLayout.setRefreshing(false);
+					mSwipeLayout.setEnabled(true);
 					if (mListData != null && mListData.size() > 0) {
 						for (Tabela item : mListData) {
 							if (mTableLayout.getChildAt(item.Posicao) != null)

@@ -134,12 +134,14 @@ public class NoticiasFragment extends Fragment implements
 		protected void onPreExecute() {
 			mListData = new ArrayList<RSSItem>();
 			mSwipeLayout.setRefreshing(true);
+			mSwipeLayout.setEnabled(false);
 		}
 
 		@Override
 		protected void onPostExecute(Void result) {
 			mListView.setAdapter(mAdapter);
 			mSwipeLayout.setRefreshing(false);
+			mSwipeLayout.setEnabled(true);
 		}
 	}
 }

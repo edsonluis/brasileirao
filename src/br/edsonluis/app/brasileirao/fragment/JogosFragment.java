@@ -105,6 +105,7 @@ public class JogosFragment extends Fragment implements
 
 			protected void onPreExecute() {
 				mSwipeLayout.setRefreshing(true);
+				mSwipeLayout.setEnabled(false);
 			};
 
 			@Override
@@ -122,6 +123,7 @@ public class JogosFragment extends Fragment implements
 
 			protected void onPostExecute(Void result) {
 				mSwipeLayout.setRefreshing(false);
+				mSwipeLayout.setEnabled(true);
 				rodadaAtual = dadosRodada.rodada;
 				if (listJogos != null && listJogos.size() > 0) {
 					Collections.sort(listJogos);
