@@ -88,4 +88,17 @@ public class RSSItem implements Comparable<RSSItem>, Parcelable {
 		return 0;
 	}
 
+	public String getDescription() {
+
+		String html = description.replaceAll("\\<.*?\\>", "");
+		html = html.replaceAll("<(.*?)\\\n", "");
+		html = html.replaceFirst("(.*?)\\>", "");
+		html = html.replaceFirst("(.*?)\\/>", "");
+		html = html.replaceAll("&nbsp;", "");
+		html = html.replaceAll("&amp;", "");
+		html = html.replace("Continue reading →", "");
+
+		return html;
+	}
+
 }

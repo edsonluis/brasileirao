@@ -16,7 +16,7 @@
     <string name="label_copyright">by Edson Silva</string>
     <string name="label_versao">Versão: 1.0.0</string>
     <string name="label_info_futebits">Dados obtidos da:</string>
-    <string name="mensagem_erro_generico">Ocorreu um problema ao atualizar os dados, verifique sua conexão com a internet.</string>
+    <string name="mensagem_erro_generico">Ocorreu um problema ao atualizar os dados, tente novamente mais tarde.</string>
     <string name="title_noticias">Notícias</string>
     <string name="title_sobre">Sobre</string>
     <string name="ads_unit_id">ca-app-pub-9009893795627397/3635996062</string>

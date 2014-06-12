@@ -12,7 +12,7 @@ import br.edsonluis.app.brasileirao.R;
 import br.edsonluis.app.brasileirao.model.RSSItem;
 
 public class RSSAdapter extends ArrayAdapter<RSSItem> {
-	
+
 	private List<RSSItem> objects = null;
 	private Context context;
 
@@ -51,10 +51,14 @@ public class RSSAdapter extends ArrayAdapter<RSSItem> {
 
 		if (null != data) {
 			TextView title = (TextView) view.findViewById(R.id.txtTitle);
+			TextView description = (TextView) view
+					.findViewById(R.id.txtDescription);
 			TextView date = (TextView) view.findViewById(R.id.txtDate);
 
 			title.setText(data.title);
-			date.setText("em " + data.getPubDate());
+			date.setText(data.getPubDate());
+			description.setText(data.getDescription());
+//			Log.i("HTML", data.description.replaceAll("\\<.*?\\>", ""));
 		}
 
 		return view;
